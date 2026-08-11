@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A股收盘主线 · 2026-08-06</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .header {
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    color: #fff;
+    padding: 24px 28px;
+  }
+  .header .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .header .date {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-bottom: 14px;
+  }
+  .header .title {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .ticker {
+    background: #fafafa;
+    padding: 16px 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  .ticker-item {
+    text-align: center;
+  }
+  .ticker-item .name { font-size: 11px; color: #888; margin-bottom: 2px; }
+  .ticker-item .val { font-size: 16px; font-weight: 600; }
+  .ticker-item .chg { font-size: 12px; font-weight: 600; }
+  .up { color: #d32f2f; }
+  .down { color: #2e7d32; }
+  .flat { color: #f57c00; }
+
+  .section {
+    padding: 22px 28px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .section:last-of-type { border-bottom: none; }
+  .section-num {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    background: #d32f2f;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 12px;
+  }
+  .section-body {
+    font-size: 14px;
+    line-height: 1.85;
+    color: #2c2c2e;
+  }
+  .section-body .lead {
+    font-weight: 600;
+    color: #1d1d1f;
+  }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 2px; vertical-align: middle; }
+  .dot-red { background: #d32f2f; }
+  .dot-yellow { background: #fbc02d; }
+  .dot-gray { background: #bdbdbd; }
+  .dot-green { background: #2e7d32; }
+
+  .table-wrap {
+    margin: 12px 0;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .table th, .table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .table th {
+    background: #f7f7f7;
+    font-weight: 600;
+    color: #666;
+  }
+  .table tr:last-child td { border-bottom: none; }
+  .table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .panel {
+    background: #f9f9f9;
+    border-left: 3px solid #d32f2f;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .panel-yellow { border-left-color: #fbc02d; }
+  .panel-gray { border-left-color: #9e9e9e; }
+
+  .watchlist {
+    background: #fff8f8;
+    border: 1px solid #ffe0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+  }
+  .watchlist-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #d32f2f;
+    margin-bottom: 8px;
+  }
+  .watchlist ul { list-style: none; }
+  .watchlist li {
+    padding: 4px 0;
+    font-size: 13px;
+    border-bottom: 1px dashed #ffe0e0;
+  }
+  .watchlist li:last-child { border-bottom: none; }
+  .watchlist strong { color: #d32f2f; }
+
+  .footer {
+    background: #fafafa;
+    padding: 16px 28px;
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    border-top: 1px solid #eee;
+  }
+  .badge {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 10px;
+    border-radius: 3px;
+    background: #d32f2f;
+    color: #fff;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-y { background: #fbc02d; color: #1d1d1f; }
+  .badge-g { background: #9e9e9e; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="brand">🔥 今日主线 <span style="font-weight:400; font-size:13px; opacity:0.85;">A 股收盘 · 2026-08-06 (周四)</span></div>
+    <div class="date">数据截至 18:05 · 沪深两市 · 关注：AI 算力 + 半导体</div>
+    <div class="title">DeepSeek 涨价引爆 AI 算力链史诗级反攻——CPO/封测双线爆发，<br>长电科技涨停封板，半导体板块全线跟涨，<br>大模型港股 MINIMAX+17%、智谱+4% 估值修复。🔴</div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-item">
+      <div class="name">上证指数</div>
+      <div class="val">3,900.35</div>
+      <div class="chg up">+0.57%</div>
+    </div>
+    <div class="ticker-item">
+      <div class="name">深证成指</div>
+      <div class="val">14,110.12</div>
+      <div class="chg down">-0.24%</div>
+    </div>
+    <div class="ticker-item">
+      <div class="name">创业板指</div>
+      <div class="val">3,515.56</div>
+      <div class="chg down">-0.55%</div>
+    </div>
+    <div class="ticker-item">
+      <div class="name">科创 50</div>
+      <div class="val">1,701.29</div>
+      <div class="chg up">+0.45%</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">①</span><span class="section-title">核心驱动 | DeepSeek 涨价公告落地，AI 推理算力需求再验证</span></div>
+    <div class="section-body">
+      <span class="lead">事件：</span>DeepSeek 今日公告"计划近期整体上调 API 服务定价，预计涨幅较大"，同步释放 V4-Flash 正式版公测 + V4-Pro 即将发布信号。
+      → 高盛解读：<b>不意味需求走弱，反而印证国内 AI 算力供需偏紧，价格战回归理性</b>。
+      → 算力租赁概念盘中异动拉升：<b>中嘉博创直线涨停</b>，利通电子、宁夏建材、甘咨询、优刻得、中贝通信跟涨。
+      <br><br>
+      <span class="lead">CPO 板块整体 +2.41%</span>，主力净流入 <b>63.4 亿</b>。但三巨头分化明显：
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>收盘</th><th class="num">涨跌幅</th><th class="num">振幅</th><th class="num">主力净流入</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>天孚通信</td><td>225.28</td><td class="num up">+3.89%</td><td class="num">11.99%</td><td class="num up">+11.97 亿</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>中际旭创</td><td>955.00</td><td class="num up">+0.77%</td><td class="num">11.87%</td><td class="num down">-6.34 亿</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>新易盛</td><td>421.87</td><td class="num down">-0.57%</td><td class="num">10.08%</td><td class="num down">-1.37 亿</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>罗博特科</td><td>470.90</td><td class="num down">-0.86%</td><td class="num">4.17%</td><td class="num">—</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">📌 <b>解读</b>：天孚通信（光器件）<span class="dot dot-red"></span>独自走强，旭创/新易盛主力净流出 → 板块内部资金从"组装"切向"光器件/光芯片"。午后涨幅较上午扩大但未形成板块共识，<b>明日观察旭创/新易盛是否补涨</b>。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">②</span><span class="section-title">扩散效应 | 封测链+PCB+设备全线跟涨，半导体板块 +1.42%</span></div>
+    <div class="section-body">
+      <span class="lead">产业链从 CPO 向封测 → PCB → 设备/材料扩散</span>，国产替代+先进封装双线共振。
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>细分</th><th>收盘</th><th class="num">涨跌幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>长电科技</td><td>封测龙头</td><td>75.87</td><td class="num up">+10.00% 涨停</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>胜宏科技</td><td>PCB·AI 算力卡</td><td>250.15</td><td class="num up">+5.84%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>通富微电</td><td>封测·AMD 链</td><td>60.96</td><td class="num up">+5.10%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>沪电股份</td><td>PCB·通讯板</td><td>117.20</td><td class="num up">+1.38%</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>北方华创</td><td>半导体设备</td><td>742.50</td><td class="num up">+1.13%</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>兆易创新</td><td>存储龙头</td><td>385.00</td><td class="num down">-0.11%</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">📌 <b>解读</b>：长电科技（封测绝对龙头）涨停是今日最强信号——先进封装（CoWoS/SiP）作为算力卡瓶颈环节，资金抢筹逻辑明确。胜宏科技 PCB 跟涨最猛（振幅 14.19%）→ <b>算力卡+AI 服务器 PCB 是产业链最确定的扩散方向</b>。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">③</span><span class="section-title">大模型分化 | 港股双雄领涨，A 股大模型映射方向待发酵</span></div>
+    <div class="section-body">
+      <span class="lead">DeepSeek 涨价 = 行业拐点信号</span>，港股大模型估值修复：
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>市场</th><th>收盘</th><th class="num">涨跌幅</th><th class="num">振幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>MINIMAX-W</td><td>港股</td><td>297.20 HKD</td><td class="num up">+17.10%</td><td class="num">22.30%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>智谱</td><td>港股</td><td>1,087 HKD</td><td class="num up">+4.42%</td><td class="num">14.27%</td><td><span class="dot dot-yellow"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-yellow">📌 <b>解读</b>：DeepSeek 涨价利好"卖铲子"（算力硬件/服务器/光模块/算力租赁）<b>+ 自研大模型厂商</b>。MINIMAX 单日 +17% 是港股大模型估值修复信号，<b>A 股映射方向</b>：科大讯飞、金山办公、三六零、拓尔思、虹软科技等待资金轮动。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">④</span><span class="section-title">外围配合 | 隔夜美股科技股分化，英伟达独自走强</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>美股</th><th>收盘</th><th class="num">涨跌幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>英伟达 NVDA</td><td>219.22 USD</td><td class="num up">+3.43%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>Meta</td><td>588.77 USD</td><td class="num up">+0.14%</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>微软 MSFT</td><td>487.46 USD</td><td class="num down">-1.09%</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>亚马逊 AMZN</td><td>272.65 USD</td><td class="num down">-1.72%</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>谷歌 GOOGL</td><td>362.43 USD</td><td class="num down">-4.03%</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-gray">📌 <b>解读</b>：英伟达 +3.43% → 北美 CSP 资本开支预期持续上修（谷歌 195-205B / 亚马逊 220B / Meta 130-145B），CPO/光模块增量需求得到跨市场共振。但 A 股今日主要催化来自 DeepSeek 涨价（独立逻辑），与美股联动减弱。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">📊</span><span class="section-title">今日市场温度计</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <tbody>
+            <tr><td>两市成交额</td><td>2.53 万亿（较昨日 -1308 亿，<b>缩量反弹</b>）</td></tr>
+            <tr><td>上涨 / 下跌</td><td>2,789 / 2,590（上涨占比 50%，情绪<span class="up">正常偏暖</span>）</td></tr>
+            <tr><td>涨停 / 跌停</td><td><span class="up">83 / 1</span>（结构性行情）</td></tr>
+            <tr><td>昨日涨停今日表现</td><td><span class="up">76.42% 上涨</span>，<b>短线资金活跃</b></td></tr>
+            <tr><td>融资余额</td><td>2.596 万亿（+0.47%，2 日连增）</td></tr>
+            <tr><td>板块涨幅 TOP3</td><td>靶材 +7.71% / 昨日连板 +5.93% / 电子特气 +5.78%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">⏭</span><span class="section-title">明日观察 & 重点关注（你关注的 AI 算力 + 半导体）</span></div>
+    <div class="section-body">
+      <div class="watchlist">
+        <div class="watchlist-title">🎯 必看</div>
+        <ul>
+          <li><strong>中际旭创 / 新易盛</strong>：今日明显弱于天孚通信（主力净流出 6.34 / 1.37 亿），明日是否补涨决定 CPO 行情持续性</li>
+          <li><strong>长电科技</strong>：今日涨停封板，明日分歧程度是封测链扩散的关键</li>
+          <li><strong>DeepSeek 涨价正式方案</strong>：涨幅预期是推理算力链的估值锚</li>
+        </ul>
+      </div>
+      <div class="watchlist">
+        <div class="watchlist-title">🛠 重点关注（按主线）</div>
+        <ul>
+          <li><strong>AI 算力链</strong>：天孚通信（光器件强势）、沪电股份（PCB 通讯板）、中际旭创 / 新易盛（补涨机会）</li>
+          <li><strong>封测链</strong>：长电科技（涨停后是否分歧）、通富微电（AMD 链）、甬矽电子 / 晶方科技（小盘补涨）</li>
+          <li><strong>存储 / 设备</strong>：兆易创新（等待右侧）、北方华创（设备龙头）、澜起科技（接口芯片）</li>
+          <li><strong>PCB 算力卡</strong>：胜宏科技（AI 服务器 PCB 龙头）、沪电股份、生益科技</li>
+          <li><strong>算力租赁 / IDC</strong>：中嘉博创、宁夏建材、利通电子、优刻得、中贝通信</li>
+          <li><strong>A 股大模型映射</strong>：科大讯飞、金山办公、三六零、拓尔思（待港股 MINIMAX 映射轮动）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    📅 报告生成时间：2026-08-06 18:10 · 数据源：腾讯自选股 / NeoData 金融搜索<br>
+    关注方向：AI 算力 + 半导体 · 下一份将于 2026-08-07（周五）15:30 推送
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A股收盘主线 · 2026-08-10</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; padding: 20px; }
+  .container { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .header { background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); color: #fff; padding: 24px 28px; }
+  .header .brand { display: flex; align-items: center; gap: 8px; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .header .date { font-size: 13px; opacity: 0.85; margin-bottom: 14px; }
+  .header .title { font-size: 18px; font-weight: 700; line-height: 1.5; }
+  .ticker { background: #fafafa; padding: 16px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; border-bottom: 1px solid #eee; }
+  .ticker-item { text-align: center; }
+  .ticker-item .name { font-size: 11px; color: #888; margin-bottom: 2px; }
+  .ticker-item .val { font-size: 16px; font-weight: 600; }
+  .ticker-item .chg { font-size: 12px; font-weight: 600; }
+  .up { color: #d32f2f; }
+  .down { color: #2e7d32; }
+  .section { padding: 22px 28px; border-bottom: 1px solid #f0f0f0; }
+  .section:last-of-type { border-bottom: none; }
+  .section-num { display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; background: #2e7d32; color: #fff; border-radius: 50%; font-size: 13px; font-weight: 700; margin-right: 8px; vertical-align: middle; }
+  .section-num.red { background: #d32f2f; }
+  .section-title { font-size: 16px; font-weight: 700; display: inline-block; vertical-align: middle; margin-bottom: 12px; }
+  .section-body { font-size: 14px; line-height: 1.85; color: #2c2c2e; }
+  .section-body .lead { font-weight: 600; color: #1d1d1f; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 2px; vertical-align: middle; }
+  .dot-red { background: #d32f2f; }
+  .dot-yellow { background: #fbc02d; }
+  .dot-gray { background: #bdbdbd; }
+  .dot-green { background: #2e7d32; }
+  .table-wrap { margin: 12px 0; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+  .table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .table th, .table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+  .table th { background: #f7f7f7; font-weight: 600; color: #666; }
+  .table tr:last-child td { border-bottom: none; }
+  .table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .panel { background: #f9f9f9; border-left: 3px solid #2e7d32; padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-size: 13px; }
+  .panel-red { border-left-color: #d32f2f; }
+  .panel-yellow { border-left-color: #fbc02d; }
+  .panel-gray { border-left-color: #9e9e9e; }
+  .watchlist { background: #f8fdf8; border: 1px solid #d8ecd8; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .watchlist.hot { background: #fff8f8; border-color: #ffe0e0; }
+  .watchlist-title { font-size: 14px; font-weight: 700; color: #2e7d32; margin-bottom: 8px; }
+  .watchlist.hot .watchlist-title { color: #d32f2f; }
+  .watchlist ul { list-style: none; }
+  .watchlist li { padding: 4px 0; font-size: 13px; border-bottom: 1px dashed #d8ecd8; }
+  .watchlist.hot li { border-bottom-color: #ffe0e0; }
+  .watchlist li:last-child { border-bottom: none; }
+  .watchlist strong { color: #2e7d32; }
+  .watchlist.hot strong { color: #d32f2f; }
+  .footer { background: #fafafa; padding: 16px 28px; font-size: 11px; color: #999; text-align: center; border-top: 1px solid #eee; }
+  .alert { background: #fff3e0; border: 1px solid #ffcc80; border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="brand">📉 今日主线 <span style="font-weight:400; font-size:13px; opacity:0.85;">A 股收盘 · 2026-08-10 (周一)</span></div>
+    <div class="date">数据截至 15:31 · 沪深两市 · 关注：AI算力 + 半导体</div>
+    <div class="title">AAOI 十倍扩产 + 美国拟禁中国数据中心组件双重利空落地，<br>CPO 龙头「易中天」单日市值蒸发1300 亿；<br>大盘却上涨 4068 家——资金<b>从算力高位切向低位周期</b>。🟢</div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-item"><div class="name">上证指数</div><div class="val">3,966.59</div><div class="chg up">+0.67%</div></div>
+    <div class="ticker-item"><div class="name">深证成指</div><div class="val">14,316.96</div><div class="chg up">+0.04%</div></div>
+    <div class="ticker-item"><div class="name">创业板指</div><div class="val">3,537.21</div><div class="chg down">-0.73%</div></div>
+    <div class="ticker-item"><div class="name">科创50</div><div class="val">1,737.77</div><div class="chg down">-0.36%</div></div>
+  </div>
+
+  <div class="alert">
+    ⚠️ <b>今日核心矛盾</b>：大盘上涨家数 4,068 家（73%，情绪偏高）、涨停 103 家，但你关注的 CPO/半导体主线<b>全线走弱</b>。这不是系统性风险，是<b>主线内部资金撤离 + 板块轮动</b>。
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">①</span><span class="section-title">核心驱动 | CPO 三重利空叠加，龙头集体重挫</span></div>
+    <div class="section-body">
+      <span class="lead">利空一：美国 AAOI（应用光电）激进扩产</span><br>
+      电话会预告<b>产能两年扩张 10 倍</b>，美股一度大涨 20%、收涨近 10%。市场解读为"美版国产替代"启动 → 直接触发上周五中际旭创盘中跳水，今日情绪延续。
+      <br><br>
+      <span class="lead">利空二：美国拟禁止进口中国数据中心组件</span><br>
+      外媒报道美政府正起草禁令，拟禁止进口中国新型号数据中心组件（保护 AI 关键基础设施）。FCC 仍可能修改或搁置，<b>但资金已用脚投票</b>。
+      <br><br>
+      <span class="lead">利空三：Coherent 投产计划提前</span><br>
+      海外光引擎/硅光先进封装供应约束缓解预期 → 削弱国内厂商稀缺性溢价。
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>收盘</th><th class="num">涨跌幅</th><th class="num">振幅</th><th class="num">主力净流入</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>中际旭创</td><td>864.58</td><td class="num down">-6.01%</td><td class="num">9.22%</td><td class="num">—</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>新易盛</td><td>399.60</td><td class="num down">-5.07%</td><td class="num">8.54%</td><td class="num down">-32.40 亿</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>罗博特科</td><td>488.18</td><td class="num down">-4.28%</td><td class="num">6.57%</td><td class="num">—</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>天孚通信</td><td>223.03</td><td class="num down">-3.32%</td><td class="num">7.94%</td><td class="num">—</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">📌 <b>关键数字</b>：CPO 板块 <b>-1.34%</b>，主力净流出 <b>267.7 亿</b>（近5 日累计还是净流入 464 亿 → 说明今天是集中派发）。"易中天"（旭创+新易盛+天孚）单日市值蒸发超<b>1300 亿</b>，光通信全链条蒸发约 1400 亿。<br><br>
+      💡 <b>但有个反向信号</b>：摩根大通今日<b>继续加仓中际旭创 H 股</b>，持股比例升至 <b>15.02%</b> → 外资对长期逻辑仍有分歧但没有撤退。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num">②</span><span class="section-title">扩散/抗跌 | 半导体分化，封测+PCB+设备逆势翻红</span></div>
+    <div class="section-body">
+      <span class="lead">半导体板块 -0.36%</span>，明显强于 CPO。逻辑：<b>不受美国数据中心组件禁令直接冲击</b>，国产替代逻辑独立。
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>细分</th><th>收盘</th><th class="num">涨跌幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>胜宏科技</td><td>PCB·算力卡</td><td>286.00</td><td class="num up">+2.07%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>北方华创</td><td>半导体设备</td><td>760.00</td><td class="num up">+1.07%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>长电科技</td><td>封测龙头</td><td>78.52</td><td class="num up">+0.99%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>通富微电</td><td>封测·AMD 链</td><td>63.20</td><td class="num down">-2.35%</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>沪电股份</td><td>PCB·通讯板</td><td>122.70</td><td class="num down">-2.52%</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>兆易创新</td><td>存储</td><td>403.03</td><td class="num down">-3.36%</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-red">📌 <b>解读</b>：这是今天最重要的结构信号——<b>胜宏科技（AI 服务器 PCB）逆势 +2.07%、北方华创（设备）+1.07%、长电（封测）+0.99% 全部翻红</b>，而纯光模块标的全线跌 3-6%。说明资金在做<b>"去光通信、留国产算力硬件"</b>的换仓，不是全面撤离 AI 算力。<br><br>
+      沪电股份 -2.52% 因通讯板业务与光模块直接相关，被牵连；胜宏主打AI 服务器 PCB，受海外禁令影响小 → 分化合理。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">③</span><span class="section-title">今日真正的强势主线（资金去哪了）</span></div>
+    <div class="section-body">
+      资金从高位算力撤出后，明显流向<b>低位周期 + 消费 + 避险</b>：
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>板块</th><th class="num">涨幅</th><th>领涨股</th><th class="num">领涨幅度</th><th>逻辑</th></tr></thead>
+          <tbody>
+            <tr><td>地面兵装</td><td class="num up">+5.12%</td><td>北方长龙</td><td class="num up">+20.00%</td><td>军工低位</td></tr>
+            <tr><td>酒店餐饮</td><td class="num up">+4.22%</td><td>华天酒店</td><td class="num up">+9.92%</td><td>消费复苏</td></tr>
+            <tr><td>养殖业</td><td class="num up">+4.19%</td><td>益生股份</td><td class="num up">+10.02%</td><td>猪周期</td></tr>
+            <tr><td>医疗服务</td><td class="num up">+3.92%</td><td>毕得医药</td><td class="num up">+20.00%</td><td>创新药链</td></tr>
+            <tr><td>贵金属</td><td class="num up">+3.89%</td><td>招金黄金</td><td class="num up">+9.98%</td><td>避险</td></tr>
+            <tr><td>渔业</td><td class="num up">+3.56%</td><td>中水渔业</td><td class="num up">+4.46%</td><td>农业低位</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-yellow">📌 <b>解读</b>：涨幅榜前六名<b>全部是低位周期/消费/避险</b>，没有一个科技板块 → 典型的<b>高低切换日</b>。贵金属+3.89% 说明有避险需求（对应美国政策不确定性）。这不是主线转移，是主线休整时的资金临时避风港。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">④</span><span class="section-title">外围与产业面| 长期逻辑未破，短期是政策扰动</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>美股（8/7 收盘）</th><th>收盘</th><th class="num">涨跌幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>英伟达 NVDA</td><td>223.96 USD</td><td class="num up">+2.27%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>亚马逊 AMZN</td><td>274.48 USD</td><td class="num up">+0.82%</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>谷歌GOOGL</td><td>354.30 USD</td><td class="num down">-0.96%</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-gray">📌 <b>重要：英伟达 +2.27%，但 A 股 CPO 大跌</b> → 说明今天 A 股跌的不是"AI 算力需求"，而是"中国光模块厂商的份额/准入预期"。这是<b>供给端政策风险</b>，不是需求端逻辑破坏。<br><br>
+      <b>产业面反向支撑</b>：<br>
+      • TrendForce 上调 2026 年 AI 服务器出货增幅 <b>28% → 近 31%</b><br>
+      • 2026 年全球九大 CSP 总资本开支预估<b>同比增长约 90%</b><br>
+      • 谷歌母公司Alphabet 发债<b>250 亿美元</b>（认购约 1150 亿，超募4 倍以上）→ AI 资本开支融资通畅<br>
+      • 2025 年初至今 Alphabet 累计债券融资已超 1140 亿美元</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">📊</span><span class="section-title">今日市场温度计</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <tbody>
+            <tr><td>两市成交额</td><td>2.52 万亿（较上一交易日 <b>-1413 亿</b>，缩量）</td></tr>
+            <tr><td>上涨 / 下跌</td><td><span class="up">4,068</span> / 1,391（上涨占比 <b>73%</b>，情绪<span class="up">偏高</span>）</td></tr>
+            <tr><td>涨停 / 跌停</td><td><span class="up">103</span> / 6</td></tr>
+            <tr><td>大跌股（-7% 以下）</td><td>26 家（主要集中在光通信）</td></tr>
+            <tr><td>上一日涨停今日表现</td><td>53.85% 上涨（较上周的 76% 明显走弱）</td></tr>
+            <tr><td>融资余额</td><td>2.614 万亿（+0.27%，<b>4 日连增</b>）</td></tr>
+            <tr><td>CPO 板块资金</td><td>主力净流出 <b>267.7 亿</b>（近 5 日仍净流入 464 亿）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-yellow">📌 <b>市场画像</b>：<b>普涨 + 主线杀跌</b>的组合。73% 个股上涨说明流动性充裕、赚钱效应尚可，但资金主动从高位算力撤离。融资余额 4 日连增说明杠杆资金没跑，只是换了方向。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">⏭</span><span class="section-title">明日观察 & 重点关注</span></div>
+    <div class="section-body">
+      <div class="watchlist hot">
+        <div class="watchlist-title">🎯 必看（3 条）</div>
+        <ul>
+          <li><strong>FCC 禁令是否落地/修改</strong>：这是 CPO 短期最大变量。报道明确"FCC 仍可能修改或搁置" → 若出现松动信号，光模块有报复性反弹空间；若正式落地，则中期逻辑需重估</li>
+          <li><strong>中际旭创能否守住 860 元</strong>：今日最低 835、收 864.58，跌幅 -6.01%。若明日继续放量破835，说明筹码松动；缩量止跌则是恐慌盘出清</li>
+          <li><strong>胜宏科技 / 长电科技的抗跌是否延续</strong>：这两个逆势翻红的标的是判断"资金是撤离AI还是内部换仓"的关键。若明日继续走强 → 换仓逻辑确认，可跟随；若补跌 → 整个算力链需减仓</li>
+        </ul>
+      </div>
+      <div class="watchlist">
+        <div class="watchlist-title">🛠 重点关注（按当前强弱排序）</div>
+        <ul>
+          <li><strong>相对强势（今日翻红，优先关注）</strong>：胜宏科技 +2.07%（AI 服务器 PCB，受禁令影响小）、北方华创 +1.07%（设备国产替代独立逻辑）、长电科技 +0.99%（先进封装）</li>
+          <li><strong>观察反弹（超跌但逻辑未破）</strong>：中际旭创 -6.01%（摩根大通仍在加仓 H 股）、天孚通信 -3.32%（光器件，跌幅相对小）</li>
+          <li><strong>暂避（直接受政策冲击）</strong>：新易盛 -5.07%（主力净流出 32.4 亿，最大流出）、罗博特科 -4.28%、沪电股份 -2.52%（通讯板受牵连）</li>
+          <li><strong>存储待观察</strong>：兆易创新 -3.36%，跟随半导体调整，无独立催化</li>
+        </ul>
+      </div>
+      <div class="panel panel-red">
+        <b>💭 我的判断</b>：今天是<b>政策扰动型下跌，不是产业逻辑崩塌</b>。三个依据：<br>
+        ① 英伟达同期+2.27%，海外算力需求端没问题<br>
+        ② TrendForce 上调 AI 服务器出货预期（28%→31%），CSP 资本开支预计增 90%<br>
+        ③ 摩根大通逆势加仓旭创 H 股至15.02%<br><br>
+        但短期确实要防守——<b>FCC 禁令的不确定性会持续压制估值</b>，而且今日 CPO 主力净流出 267.7 亿是集中派发量级。建议观察 1-2 个交易日，等FCC 表态或者龙头缩量止跌信号，不要在恐慌中接刀。国产替代链（设备/封测/PCB）反而是这轮切换的受益方向。
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    📅 报告生成时间：2026-08-10 15:35 · 数据源：腾讯自选股 / NeoData 金融搜索<br>
+    关注方向：AI 算力 + 半导体 · 下一份将于 2026-08-11（周二）15:30 推送
+  </div>
+
+</div>
+</body>
+</html>
