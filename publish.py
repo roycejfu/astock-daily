@@ -27,6 +27,11 @@ ARCHIVE_DIR = os.path.join(SITE_DIR, "archive")
 INDEX_PATH = os.path.join(SITE_DIR, "index.html")
 LATEST_PATH = os.path.join(SITE_DIR, "latest.html")
 
+# 沙箱/自动化环境通常没有全局 git config，提交时必须显式指定身份
+GIT_USER_EMAIL = os.environ.get("GIT_AUTHOR_EMAIL", "roycefu@tencent.com")
+GIT_USER_NAME = os.environ.get("GIT_AUTHOR_NAME", "roycejfu")
+GIT_ID = f'git -c user.email="{GIT_USER_EMAIL}" -c user.name="{GIT_USER_NAME}"'
+
 WEEKDAY_CN = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
 
 BADGE_MAP = {
@@ -203,7 +208,8 @@ def main():
         return
 
     commit_date = entries[0][0] if entries else datetime.now().strftime("%Y-%m-%d")
-    run(f'git commit -q -m "收盘复盘更新 {commit_date}"')
+    # 沙箱环境无全局 git config，必须显式带 committer 身份，否则 commit 会失败
+    run(f'{GIT_ID} commit -q -m "收盘复盘更新 {commit_date}"')
     print(f"[OK] 已提交")
 
     # 推送到 gh-pages 分支
@@ -214,6 +220,9 @@ def main():
     )
     if push_result.returncode != 0:
         print(f"[ERROR] 推送失败:\n{push_result.stderr}", file=sys.stderr)
+        print("[HINT] 本地已 commit，网络恢复后可手动执行："
+              f"\n  cd {SITE_DIR} && git push origin {branch}:gh-pages",
+              file=sys.stderr)
         sys.exit(1)
     print("[OK] 已推送到 gh-pages")
     print("[URL] https://roycejfu.github.io/astock-daily/")
