@@ -95,6 +95,32 @@ def save_meta(meta):
             f.write(f"{date_str}|{item['trend']}|{item['title']}\n")
 
 
+def verify_remote_synced(remote_ref="gh-pages"):
+    """push 后校验远端分支 HEAD 是否与本地 HEAD 一致。
+
+    防止「本地已 commit 但远端未追上」造成的 index.html / latest.html
+    日期撕裂（首页显示旧日期、点进去是新数据）。
+    返回 True 表示一致；False 表示不一致或无法校验。
+    """
+    local_head = run("git rev-parse HEAD", check=False)
+    remote = subprocess.run(
+        f"git ls-remote origin {remote_ref}",
+        cwd=SITE_DIR, shell=True, capture_output=True, text=True
+    )
+    if remote.returncode != 0:
+        print(f"[WARN] 无法校验远端（ls-remote 失败）: {remote.stderr.strip()}",
+              file=sys.stderr)
+        return False
+    parts = remote.stdout.strip().split()
+    remote_hash = parts[0] if parts else ""
+    if local_head and remote_hash and local_head == remote_hash:
+        print(f"[OK] 远端 {remote_ref} 与本地 HEAD 一致 ({local_head[:8]})")
+        return True
+    print(f"[ERROR] ⚠️ 远端未追上本地：本地 {local_head[:8]} / 远端 "
+          f"{remote_hash[:8] if remote_hash else '(空)'}", file=sys.stderr)
+    return False
+
+
 def build_list_html(entries, meta):
     """生成历史列表的 HTML"""
     lines = []
@@ -212,19 +238,28 @@ def main():
     run(f'{GIT_ID} commit -q -m "收盘复盘更新 {commit_date}"')
     print(f"[OK] 已提交")
 
-    # 推送到 gh-pages 分支
+    # 推送到 gh-pages 分支（失败自动重试一次）
     branch = run("git rev-parse --abbrev-ref HEAD", check=False) or "main"
-    push_result = subprocess.run(
-        f"git push -q origin {branch}:gh-pages",
-        cwd=SITE_DIR, shell=True, capture_output=True, text=True
-    )
-    if push_result.returncode != 0:
-        print(f"[ERROR] 推送失败:\n{push_result.stderr}", file=sys.stderr)
+    pushed = False
+    for attempt in (1, 2):
+        push_result = subprocess.run(
+            f"git push -q origin {branch}:gh-pages",
+            cwd=SITE_DIR, shell=True, capture_output=True, text=True
+        )
+        if push_result.returncode == 0:
+            pushed = True
+            break
+        print(f"[WARN] 第 {attempt} 次推送失败: {push_result.stderr.strip()}",
+              file=sys.stderr)
+    if not pushed:
+        print("[ERROR] 推送失败（已重试 1 次）", file=sys.stderr)
         print("[HINT] 本地已 commit，网络恢复后可手动执行："
               f"\n  cd {SITE_DIR} && git push origin {branch}:gh-pages",
               file=sys.stderr)
         sys.exit(1)
     print("[OK] 已推送到 gh-pages")
+    # 二次校验远端 HEAD，防止「本地已提交但远端未追上」的日期撕裂
+    verify_remote_synced("gh-pages")
     print("[URL] https://roycejfu.github.io/astock-daily/")
 
 
