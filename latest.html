@@ -23,48 +23,45 @@
   .section:last-of-type { border-bottom: none; }
   .section-num { display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center; background: #2e7d32; color: #fff; border-radius: 50%; font-size: 13px; font-weight: 700; margin-right: 8px; vertical-align: middle; }
   .section-num.red { background: #d32f2f; }
-  .section-num.green { background: #2e7d32; }
-  .section-num.blue { background: #1d4ed8; }
   .section-title { font-size: 16px; font-weight: 700; display: inline-block; vertical-align: middle; margin-bottom: 12px; }
   .section-body { font-size: 14px; line-height: 1.85; color: #2c2c2e; }
   .section-body .lead { font-weight: 600; color: #1d1d1f; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 2px; vertical-align: middle; }
+  .dot-red { background: #d32f2f; }
+  .dot-yellow { background: #fbc02d; }
+  .dot-gray { background: #bdbdbd; }
+  .dot-green { background: #2e7d32; }
   .table-wrap { margin: 12px 0; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
   .table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .table th, .table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #f0f0f0; }
   .table th { background: #f7f7f7; font-weight: 600; color: #666; }
   .table tr:last-child td { border-bottom: none; }
   .table .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .panel { background: #f3faf3; border-left: 3px solid #2e7d32; padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-size: 13px; }
-  .panel-red { border-left-color: #d32f2f; background: #fff3f3; }
-  .panel-yellow { border-left-color: #fbc02d; background: #fffdf5; }
-  .panel-gray { border-left-color: #9e9e9e; background: #fafafa; }
-  .panel-green { border-left-color: #2e7d32; background: #f3faf3; }
-  .watchlist { background: #f7f7f7; border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; margin: 12px 0; }
-  .watchlist-title { font-size: 14px; font-weight: 700; color: #444; margin-bottom: 8px; }
+  .panel { background: #f9f9f9; border-left: 3px solid #2e7d32; padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-size: 13px; }
+  .panel-red { border-left-color: #d32f2f; }
+  .panel-yellow { border-left-color: #fbc02d; }
+  .panel-gray { border-left-color: #9e9e9e; }
+  .watchlist { background: #f8fdf8; border: 1px solid #d8ecd8; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .watchlist.hot { background: #fff8f8; border-color: #ffe0e0; }
+  .watchlist-title { font-size: 14px; font-weight: 700; color: #2e7d32; margin-bottom: 8px; }
+  .watchlist.hot .watchlist-title { color: #d32f2f; }
   .watchlist ul { list-style: none; }
-  .watchlist li { padding: 4px 0; font-size: 13px; border-bottom: 1px dashed #e0e0e0; }
+  .watchlist li { padding: 4px 0; font-size: 13px; border-bottom: 1px dashed #d8ecd8; }
+  .watchlist.hot li { border-bottom-color: #ffe0e0; }
   .watchlist li:last-child { border-bottom: none; }
+  .watchlist strong { color: #2e7d32; }
+  .watchlist.hot strong { color: #d32f2f; }
   .footer { background: #fafafa; padding: 16px 28px; font-size: 11px; color: #999; text-align: center; border-top: 1px solid #eee; }
   .alert { background: #fff3e0; border: 1px solid #ffcc80; border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 13px; }
-  .lanqi-box { background: #f3f7ff; border: 1px solid #d4e0ff; border-radius: 8px; padding: 16px; margin: 12px 0; }
-  .lanqi-box .title { font-size: 14px; font-weight: 700; color: #1d4ed8; margin-bottom: 8px; }
-  .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; }
-  .metric { background: #fafafa; border-radius: 6px; padding: 10px 12px; font-size: 12px; }
-  .metric .k { color: #888; font-size: 11px; }
-  .metric .v { font-size: 15px; font-weight: 700; margin-top: 2px; }
 </style>
 </head>
 <body>
 <div class="container">
 
   <div class="header">
-    <div class="brand">📉 今日主线</div>
-    <div class="date">A 股收盘 · 2026-08-28 (周五)</div>
-    <div class="title">
-      英伟达利好被<strong>提前兑现</strong>，硬科技冲高回落；
-      指数微跌但个股涨多跌少，资金从<strong>硬科技切向软科技</strong>。
-      澜起科技回吐 -3.72%。🟢
-    </div>
+    <div class="brand">📉 今日主线 <span style="font-weight:400; font-size:13px; opacity:0.85;">A 股收盘 · 2026-08-28 (周五)</span></div>
+    <div class="date">数据截至 15:31 · 沪深两市 · 关注：AI算力 + 半导体</div>
+    <div class="title">隔夜英伟达 +8.74% 大涨，但 A 股算力主线<b>利好兑现、全线获利回吐</b>；<br>科创50 -1.85% 领跌、胜宏科技 -8.15% 重挫，<br>资金从高位算力<b>切向渔业/地产/农业等低位顺周期</b>。🟢</div>
   </div>
 
   <div class="ticker">
@@ -74,253 +71,186 @@
     <div class="ticker-item"><div class="name">科创50</div><div class="val">1,662.15</div><div class="chg down">-1.85%</div></div>
   </div>
 
+  <div class="alert">
+    ⚠️ <b>今日核心矛盾</b>：隔夜英伟达 +8.74% 大涨（财报后延续），但今日 A 股科创50 <b>-1.85% 领跌</b>、你关注的 CPO/半导体/存储/PCB/封测主线<b>全线杀跌</b>。这是典型的<b>「利好兑现 + 高低切换」</b>：昨日（8-27）主线已充分演绎英伟达财报（科创50 +3.77%、澜起涨停），今日高开低走、获利盘集中兑现。
+  </div>
+
   <div class="section">
+    <div><span class="section-num">①</span><span class="section-title">核心驱动 | 英伟达利好兑现，算力主线获利回吐</span></div>
     <div class="section-body">
-      <div class="alert">
-        ⚠️ <strong>今日核心矛盾</strong>：指数微跌，但<strong>个股涨多跌少（3,013 涨 / 2,390 跌，涨停 95 家）</strong>。
-        昨天领涨的半导体今天主力净流出 <strong>-128.30 亿</strong>、电子 <strong>-186.85 亿</strong>、通信 <strong>-63.42 亿</strong>——
-        <strong>昨日流入的钱几乎原路流出</strong>。这不是行情转熊，是<strong>利好兑现后的高低切换</strong>：钱没走，换了方向。
+      <span class="lead">唯一核心矛盾：利好兑现式回调，非逻辑破坏</span><br>
+      昨夜美股（8/27）英伟达 <b>+8.74%</b>（收 227.98 美元），Vera Rubin 已量产出货、Q3 将贡献 20% 数据中心收入，罕见给出 2028 财年营收 +70% 指引。但今日 A 股算力主线<b>不涨反跌</b>——因为 8-27 当天已把这份财报演绎到位（科创50 +3.77%、澜起涨停），今日属于<b>「利好落地、买预期卖事实」</b>的获利回吐。
+      <br><br>
+      <span class="lead">政策面当日托底但未止跌</span><br>
+      8/28 发改委表态「发挥新型举国体制优势，全链条推动集成电路关键核心技术攻关」，叠加芯上微装国产 350nm 光刻机获批量订单、上海「智算光网」专项落地。政策中长期利好半导体，但无法对冲短期获利盘抛压。
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>细分</th><th>收盘</th><th class="num">涨跌幅</th><th class="num">主力净流入</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>中际旭创</td><td>光模块龙头</td><td>858.35</td><td class="num down">-0.90%</td><td class="num up">+1.69 亿</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>新易盛</td><td>光模块</td><td>399.00</td><td class="num down">-2.47%</td><td class="num down">-9.34 亿</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>天孚通信</td><td>光器件</td><td>263.58</td><td class="num down">-1.34%</td><td class="num">—</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>罗博特科</td><td>光模块设备</td><td>536.70</td><td class="num down">-2.79%</td><td class="num">—</td><td><span class="dot dot-green"></span></td></tr>
+          </tbody>
+        </table>
       </div>
+      <div class="panel">📌 <b>关键数字</b>：CPO 板块 <b>-1.04%</b>，主力净流出 <b>107.5 亿</b>；半导体 -2.12% 净流出 <b>122.6 亿</b>。光模块里<b>中际旭创是唯一主力净流入（+1.69 亿）</b>、跌幅也最小（-0.90%），印证「资金向高弹性龙头集中」的结构特征——回调时龙头抗跌，二三线（新易盛、罗博特科）补跌。</div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-num green">①</div><span class="section-title">核心驱动 | 一句话：昨天抢跑了</span>
+    <div><span class="section-num">②</span><span class="section-title">扩散/结构分化 | 全线杀跌，胜宏科技领跌、通富微电独红</span></div>
     <div class="section-body">
-      <p><span class="lead">事实链条（按时间顺序，不倒推）：</span></p>
-      <p>
-        ① <strong>8/26 盘后</strong>英伟达发财报（营收 +106%、FY28 指引 +70%）→
-        ② <strong>8/27 A 股</strong>科创50 <strong>+3.77%</strong>、半导体主力净流入 <strong>+180 亿</strong>，抢在美股反应之前先涨 →
-        ③ <strong>8/27 美股</strong>英伟达才真正大涨 <strong>+8.74%</strong>、纳指 +1.57%、博通 +4.49% →
-        ④ <strong>8/28 A 股</strong>四大指数<strong>集体低开</strong>（沪指低开 0.16%、创业板低开 0.57%），冲高后快速跳水。
-      </p>
-      <div class="panel panel-yellow">
-        📌 <strong>这里的因果必须说清楚</strong>：外围是<strong>大涨</strong>（纳指 +1.57%、英伟达 +8.74%），A 股却<strong>低开下跌</strong>。
-        这个背离唯一自洽的解释是——<strong>A 股 8/27 已经把利好透支了</strong>。同一份财报被交易了两次，第二次没有新增信息，
-        剩下的只有获利盘。<strong>不要把今天的下跌解读为"英伟达财报不行"或"AI 逻辑破了"</strong>，那是拿价格倒推原因。
+      <span class="lead">半导体链内部谁强谁弱</span>：存储、设备、封测、PCB 同步回调，但跌幅明显分层。
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>个股</th><th>细分</th><th>收盘</th><th class="num">涨跌幅</th><th class="num">主力净流入</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>通富微电</td><td>封测·AMD链</td><td>63.75</td><td class="num up">+0.03%</td><td class="num">—</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>沪电股份</td><td>PCB·通讯板</td><td>121.70</td><td class="num down">-0.26%</td><td class="num">—</td><td><span class="dot dot-yellow"></span></td></tr>
+            <tr><td>长电科技</td><td>封测龙头</td><td>74.93</td><td class="num down">-2.10%</td><td class="num">—</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>北方华创</td><td>半导体设备</td><td>697.51</td><td class="num down">-2.85%</td><td class="num">—</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>兆易创新</td><td>存储</td><td>396.82</td><td class="num down">-3.50%</td><td class="num down">-16.51 亿</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>胜宏科技</td><td>PCB·算力卡</td><td>241.60</td><td class="num down">-8.15%</td><td class="num down">-23.29 亿</td><td><span class="dot dot-green"></span></td></tr>
+          </tbody>
+        </table>
       </div>
-      <p><span class="lead">今天的增量信息只有两条（都不是主线级别）：</span></p>
-      <p>
-        <strong>· 利多（被忽略）</strong>：统计局 1-7 月规上工业企业利润数据——电子行业利润同比 <strong>+1.1 倍</strong>，
-        其中<strong>集成电路行业利润同比暴涨 18.5 倍</strong>，对电子行业利润贡献率超八成。
-        这是<strong>硬数据层面对 AI 算力景气度的确认</strong>，方向上完全支持半导体，但今天市场没买。
-      </p>
-      <p>
-        <strong>· 利空（被交易）</strong>：美国针对<strong>电网设备</strong>的出口管制传闻，强化了科技脱钩预期，
-        半导体材料/设备（-2.74% / -2.39%）反应最直接。另有 FCC 光模块政策余波压制通信设备。
-      </p>
-      <div class="panel panel-gray">
-        📌 <strong>诚实的判断</strong>：管制传闻是"未落地的预期交易"，工业利润是"已发生的事实"。
-        今天资金选择交易前者、无视后者，说明<strong>驱动力是筹码结构（获利盘太重），不是基本面变化</strong>。
-        这个区分很重要——基本面驱动的下跌需要减仓，筹码驱动的下跌是等回踩。
-      </div>
+      <div class="panel panel-red">📌 <b>解读</b>：今日是<b>全线杀跌、无抗跌主线</b>，与 8-10「内部换仓」不同。胜宏科技 <b>-8.15% 领跌、主力净流出 23.29 亿</b>——它前期涨幅最大（算力 PCB 龙头），是获利盘最集中的标的，回吐也最猛。存储（兆易 -3.50%、澜起 -3.72%）跌幅居中，设备（北方华创 -2.85%）相对抗跌。仅通富微电 +0.03% 独红，无独立催化、属超跌后的零星抵抗。<br><br>
+      传导逻辑合理：<b>英伟达财报利好 → 前日已兑现 → 今日集体获利了结</b>，跌幅与前期涨幅正相关（胜宏 &gt; 存储 &gt; 设备），符合「涨得多跌得多」的获利回吐特征，而非基本面恶化。</div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-num green">②</div><span class="section-title">资金去哪了 | 硬科技流出，软科技+周期承接</span>
+    <div><span class="section-num red">③</span><span class="section-title">大模型/应用分化 | 港股大模型同步杀跌</span></div>
     <div class="section-body">
-      <p><span class="lead">主力净流出 TOP（昨天的主线，今天全线反手）：</span></p>
+      昨日港股大模型还领涨（智谱 GLM-5.3-Flash 认领「牛来」、MINIMAX 中报 +283%），今日<b>全线回调</b>：
       <div class="table-wrap">
         <table class="table">
-          <tr><th>板块</th><th class="num">涨跌幅</th><th class="num">主力净流入</th><th>昨日对比</th></tr>
-          <tr><td>电子</td><td class="num down">-1.02%</td><td class="num down">-186.85 亿</td><td>—</td></tr>
-          <tr><td><strong>半导体</strong></td><td class="num down">-1.69%</td><td class="num down"><strong>-128.30 亿</strong></td><td>昨日 <span class="up">+180.04 亿</span> → 反手</td></tr>
-          <tr><td>数字芯片设计</td><td class="num down">-1.97%</td><td class="num down">-74.25 亿</td><td>—</td></tr>
-          <tr><td>通信</td><td class="num down">-0.81%</td><td class="num down">-63.42 亿</td><td>—</td></tr>
-          <tr><td>通信设备</td><td class="num down">-1.02%</td><td class="num down">-61.19 亿</td><td>昨日 <span class="up">+104.14 亿</span> → 反手</td></tr>
-          <tr><td>通信线缆及配套</td><td class="num down">-3.38%</td><td class="num down">-51.15 亿</td><td>昨日长飞涨停 → 今日领跌</td></tr>
-          <tr><td>印制电路板</td><td class="num down">-0.87%</td><td class="num down">-28.38 亿</td><td>—</td></tr>
-          <tr><td>元件</td><td class="num down">-0.59%</td><td class="num down">-26.07 亿</td><td>昨日 <span class="up">+128.72 亿</span> → 反手</td></tr>
-          <tr><td>半导体材料</td><td class="num down">-2.74%</td><td class="num down">-23.72 亿</td><td>管制传闻直接冲击</td></tr>
-          <tr><td>半导体设备</td><td class="num down">-2.39%</td><td class="num down">-16.63 亿</td><td>管制传闻直接冲击</td></tr>
+          <thead><tr><th>标的</th><th>收盘</th><th class="num">涨跌幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>智谱 (02513.HK)</td><td>1,089.00</td><td class="num down">-6.12%</td><td><span class="dot dot-green"></span></td></tr>
+            <tr><td>MINIMAX-W (00100.HK)</td><td>301.20</td><td class="num down">-4.26%</td><td><span class="dot dot-green"></span></td></tr>
+          </tbody>
         </table>
       </div>
-
-      <p><span class="lead">主力净流入 TOP（今天的钱去了这里）：</span></p>
-      <div class="table-wrap">
-        <table class="table">
-          <tr><th>板块</th><th class="num">涨跌幅</th><th class="num">主力净流入</th><th>属性</th></tr>
-          <tr><td>基础化工</td><td class="num up">+1.57%</td><td class="num up">+26.78 亿</td><td>周期承接</td></tr>
-          <tr><td><strong>横向通用软件</strong></td><td class="num up"><strong>+3.25%</strong></td><td class="num up">+21.68 亿</td><td><strong>软科技（最强）</strong></td></tr>
-          <tr><td>软件开发</td><td class="num up">+0.81%</td><td class="num up">+20.99 亿</td><td>软科技</td></tr>
-          <tr><td>化学制品</td><td class="num up">+1.53%</td><td class="num up">+17.16 亿</td><td>周期</td></tr>
-          <tr><td>计算机</td><td class="num up">+0.33%</td><td class="num up">+13.66 亿</td><td>软科技</td></tr>
-          <tr><td>化学原料</td><td class="num up">+2.56%</td><td class="num up">+10.82 亿</td><td>周期</td></tr>
-          <tr><td>传媒</td><td class="num up">+0.50%</td><td class="num up">+10.56 亿</td><td>软科技/AI应用</td></tr>
-          <tr><td>锂 / 能源金属</td><td class="num up">+2.25% / +1.50%</td><td class="num up">+10.56 / +8.78 亿</td><td>周期</td></tr>
-        </table>
-      </div>
-
-      <div class="panel panel-green">
-        📌 <strong>结构解读</strong>：流出的是<strong>硬科技（半导体/PCB/光模块/设备）</strong>，
-        流入的是<strong>软科技（通用软件/软件开发/计算机/传媒）+ 周期（化工/锂/化学原料）</strong>。
-        涨幅榜前列是氮肥 +7.33%、房产租赁 +5.44%、运动服装 +5.12%、种子 +4.53%——<strong>典型的低位补涨</strong>。
-        <br><br>
-        这是<strong>标准的高低切换</strong>：成交额 2.10 万亿仅小幅缩量、涨停 95 家（昨日 78 家）、涨跌比 3013:2390 仍是正数。
-        <strong>钱没有离场，只是不愿意在高位硬科技上接最后一棒。</strong>
-      </div>
+      <div class="panel panel-yellow">📌 <b>解读</b>：智谱、MINIMAX 昨日冲高后今日获利回吐，与 A 股大模型映射（算力租赁/IDC）方向同步降温。这是<b>情绪面的普跌</b>，不是大模型产业逻辑逆转——前日「GLM-5.3-Flash 开源」等催化仍在，今日只是高位兑现。</div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-num green">③</div><span class="section-title">自选股 | 昨日涨得最狠的，今天跌得最狠</span>
+    <div><span class="section-num red">④</span><span class="section-title">外围与产业面 | 英伟达大涨，但 A 股背离</span></div>
     <div class="section-body">
       <div class="table-wrap">
         <table class="table">
-          <tr><th>个股</th><th class="num">收盘</th><th class="num">涨跌</th><th class="num">主力净流入</th><th class="num">昨日涨幅</th></tr>
-          <tr><td>通富微电</td><td class="num">63.75</td><td class="num up">+0.03%</td><td class="num up">+0.71 亿</td><td class="num">+4.05%</td></tr>
-          <tr><td>沪电股份</td><td class="num">121.70</td><td class="num down">-0.26%</td><td class="num up">+3.83 亿</td><td class="num">+2.35%</td></tr>
-          <tr><td>中际旭创</td><td class="num">858.35</td><td class="num down">-0.90%</td><td class="num up">+2.08 亿</td><td class="num">+1.79%</td></tr>
-          <tr><td>天孚通信</td><td class="num">263.58</td><td class="num down">-1.34%</td><td class="num up">+0.53 亿</td><td class="num">+5.36%</td></tr>
-          <tr><td>长电科技</td><td class="num">74.93</td><td class="num down">-2.10%</td><td class="num down">-4.59 亿</td><td class="num">+3.97%</td></tr>
-          <tr><td>新易盛</td><td class="num">399.00</td><td class="num down">-2.47%</td><td class="num down">-9.05 亿</td><td class="num">+2.59%</td></tr>
-          <tr><td>罗博特科</td><td class="num">536.70</td><td class="num down">-2.79%</td><td class="num down">-4.13 亿</td><td class="num">+4.39%</td></tr>
-          <tr><td>北方华创</td><td class="num">697.51</td><td class="num down">-2.85%</td><td class="num down">-5.26 亿</td><td class="num">+2.47%</td></tr>
-          <tr><td>兆易创新</td><td class="num">396.82</td><td class="num down">-3.50%</td><td class="num down">-16.33 亿</td><td class="num">+4.76%</td></tr>
-          <tr><td><strong>澜起科技</strong></td><td class="num">213.00</td><td class="num down"><strong>-3.72%</strong></td><td class="num down">-13.31 亿</td><td class="num">+10.06%</td></tr>
-          <tr><td><strong>胜宏科技</strong></td><td class="num">241.60</td><td class="num down"><strong>-8.15%</strong></td><td class="num down"><strong>-23.01 亿</strong></td><td class="num">+5.46%</td></tr>
+          <thead><tr><th>美股（8/27 收盘）</th><th>收盘</th><th class="num">涨跌幅</th><th>标记</th></tr></thead>
+          <tbody>
+            <tr><td>英伟达 NVDA</td><td>227.98 USD</td><td class="num up">+8.74%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>微软 MSFT</td><td>505.06 USD</td><td class="num up">+1.75%</td><td><span class="dot dot-red"></span></td></tr>
+            <tr><td>谷歌 GOOGL</td><td>340.65 USD</td><td class="num down">-0.39%</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>Meta</td><td>571.10 USD</td><td class="num down">-0.87%</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>AMD</td><td>476.67 USD</td><td class="num down">-0.89%</td><td><span class="dot dot-gray"></span></td></tr>
+            <tr><td>亚马逊 AMZN</td><td>256.26 USD</td><td class="num down">-1.54%</td><td><span class="dot dot-gray"></span></td></tr>
+          </tbody>
         </table>
+      </div>
+      <div class="panel panel-gray">📌 <b>重要：英伟达 +8.74%，但 A 股 CPO/半导体全线杀跌</b> → 说明今日 A 股跌的不是「AI 算力需求」，而是「利好兑现后的短期获利回吐 + 高低切换」。这是<b>情绪面/筹码面回调</b>，不是需求端逻辑破坏。<br><br>
+      <b>产业面反向支撑（逻辑未变）</b>：<br>
+      • 英伟达 Vera Rubin 已量产出货，Q3 贡献 20% 数据中心收入，2028 财年营收指引 +70%<br>
+      • 上半年集成电路上市公司营收 +12.8%、净利润 +99%；出口 1772.8 亿美元、同比 +96.1%<br>
+      • 汇丰：英伟达锁定 2026 年先进封装/内存/光学产能，2027 供应链约束或加剧<br>
+      • 发改委 8/28 表态全链条推动集成电路关键核心技术攻关（产业中长期利好）</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">🎯</span><span class="section-title">澜起科技 (688008) 专项</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <tbody>
+            <tr><td>当日收盘</td><td>213.00 元</td><td class="num down">-3.72%</td></tr>
+            <tr><td>主力资金</td><td colspan="2">净流出 <b class="down">-13.54 亿</b>（超大单 -14.08 亿、大单 +0.54 亿）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-red">📌 <b>澜起科技专项解读</b>：前日（8-27）澜起 <b>+10.06% 涨停</b>、主力净流入 15.17 亿，是存储/算力硬件主线的先锋；今日高开低走 <b>-3.72%</b>、主力净流出 13.54 亿，属<b>涨停后的获利兑现</b>，非基本面走坏。<br><br>
+      <b>当日驱动与主线联动</b>：无独立利空，跟随「存储涨价 + DDR5 内存接口芯片放量」主线集体回调。DDR5 涨价、PCIe Retimer 放量、CXL-MXC 内存扩展、AI 服务器内存需求等产业逻辑<b>当日均无变化</b>，回调纯属筹码面。<br><br>
+      <b>联动强度判断</b>：澜起与兆易创新（-3.50%）、北方华创（-2.85%）同属「存储/算力硬件」主线，今日同步杀跌、跌幅居中，<b>联动强、无独立分化</b>。作为存储/算力硬件核心标的，其走势与半导体-存储-算力硬件主线高度一致。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">📊</span><span class="section-title">今日市场温度计</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <tbody>
+            <tr><td>两市成交额</td><td>2.10 万亿（较上一交易日 <b class="down">-242 亿</b>，缩量）</td></tr>
+            <tr><td>上涨 / 下跌</td><td><span class="up">3,013</span> / 2,390（上涨占比 <b>54%</b>，情绪正常）</td></tr>
+            <tr><td>涨停 / 跌停</td><td><span class="up">83</span> / 3</td></tr>
+            <tr><td>融资余额</td><td>2.628 万亿（+0.43%，<b>结束 6 日连降、止跌回升</b>）</td></tr>
+            <tr><td>CPO 板块资金</td><td>主力净流出 <b class="down">107.5 亿</b></td></tr>
+            <tr><td>半导体板块资金</td><td>主力净流出 <b class="down">122.6 亿</b></td></tr>
+            <tr><td>存储器板块资金</td><td>主力净流出 <b class="down">100.6 亿</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-yellow">📌 <b>市场画像</b>：<b>普跌 + 主线杀跌 + 高低切换</b>的组合。上涨 3013 家仍多于下跌 2390 家（54% 上涨），说明大盘并非系统性崩盘；但资金从高位算力主线<b>集中撤出（CPO+半导体+存储合计净流出约 330 亿）</b>，流向低位顺周期。融资余额止跌回升 +0.43%，说明杠杆资金没跑、只是换方向。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">💰</span><span class="section-title">今日资金去哪了（板块涨幅榜 TOP6）</span></div>
+    <div class="section-body">
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>板块</th><th class="num">涨幅</th><th>领涨股</th><th class="num">领涨幅度</th><th>逻辑</th></tr></thead>
+          <tbody>
+            <tr><td>渔业</td><td class="num up">+4.55%</td><td>中水渔业</td><td class="num up">+10.00%</td><td>农业低位</td></tr>
+            <tr><td>房地产服务</td><td class="num up">+3.75%</td><td>我爱我家</td><td class="num up">+10.00%</td><td>低位顺周期</td></tr>
+            <tr><td>饰品</td><td class="num up">+3.42%</td><td>深中华A</td><td class="num up">+9.99%</td><td>消费低位</td></tr>
+            <tr><td>炼化及贸易</td><td class="num up">+2.66%</td><td>华锦股份</td><td class="num up">+10.08%</td><td>周期</td></tr>
+            <tr><td>农产品加工</td><td class="num up">+2.65%</td><td>冠农股份</td><td class="num up">+10.00%</td><td>农业低位</td></tr>
+            <tr><td>化学原料</td><td class="num up">+2.42%</td><td>雪天盐业</td><td class="num up">+10.02%</td><td>周期低位</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel panel-yellow">📌 <b>解读</b>：涨幅榜前六名<b>全部是低位周期/消费/农业</b>，没有一个科技板块 → <b>典型的高低切换日</b>。资金从高位算力撤出后，躲进渔业、地产、农业、化工等低位避险板块。这是主线休整时的临时避风港，不是主线转移。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div><span class="section-num red">⏭</span><span class="section-title">明日观察 & 重点关注</span></div>
+    <div class="section-body">
+      <div class="watchlist hot">
+        <div class="watchlist-title">🎯 明日必看（3 条）</div>
+        <ul>
+          <li><strong>英伟达隔夜走势能否企稳</strong>：昨夜 +8.74% 后盘后回落 -0.80%，关注今晚英伟达能否守住 220 美元。若继续走强，A 股算力主线明日有超跌反弹动能；若补跌，则获利回吐或延续</li>
+          <li><strong>中际旭创能否守住 856 元（今日最低）</strong>：旭创今日跌幅最小（-0.90%）且是唯一主力净流入（+1.69 亿），是判断「回调是否结束」的核心锚。守住 856 → 恐慌盘出清；放量跌破 → 主线二次探底</li>
+          <li><strong>胜宏科技 -8.15% 后能否止跌</strong>：胜宏是获利盘最集中的算力 PCB 龙头，今日领跌主力流出 23.29 亿。明日若缩量止跌，说明集中抛压释放完毕；若继续放量下杀，则需警惕算力 PCB 中期筹码松动</li>
+        </ul>
+      </div>
+      <div class="watchlist">
+        <div class="watchlist-title">🛠 重点关注个股池（按当日强弱排序）</div>
+        <ul>
+          <li><strong>相对强势（优先关注）</strong>：通富微电 +0.03%（唯一翻红）、沪电股份 -0.26%（抗跌）、中际旭创 -0.90%（唯一主力净流入 +1.69 亿）、天孚通信 -1.34%（跌幅小）</li>
+          <li><strong>观察反弹（超跌但逻辑未破）</strong>：长电科技 -2.10%、新易盛 -2.47%、北方华创 -2.85%（设备国产替代独立逻辑，抗跌）</li>
+          <li><strong>暂避（领跌/集中抛压）</strong>：胜宏科技 -8.15%（主力流出 23.29 亿）、澜起科技 -3.72%（涨停后兑现，主力流出 13.54 亿）、兆易创新 -3.50%（主力流出 16.51 亿）、罗博特科 -2.79%</li>
+        </ul>
       </div>
       <div class="panel panel-red">
-        📌 <strong>最重要的一个反转信号</strong>：昨天<strong>滞涨</strong>的中际旭创（+1.79%）、沪电股份（+2.35%）、天孚（+5.36%）
-        今天反而是<strong>主力净流入</strong>的（+2.08 / +3.83 / +0.53 亿）；
-        而昨天<strong>领涨</strong>的澜起（+10.06%）、兆易（+4.76%）、胜宏（+5.46%）今天净流出最狠（-13.31 / -16.33 / -23.01 亿）。
-        <br><br>
-        <strong>昨天我提示"光模块大票滞涨，等补涨信号"——今天出现的不是补涨，是"滞涨的抗跌、领涨的补跌"。</strong>
-        这修正了昨天的判断：资金不是在"锁定存储/接口"，而是在<strong>高位标的间做短线博弈</strong>，涨幅越大兑现越快。
-      </div>
-      <div class="panel panel-yellow">
-        ⚠️ <strong>胜宏科技 -8.15% 值得单独说</strong>：跌幅是自选股里最深的，主力净流出 -23.01 亿（超大单 -22.90 亿），
-        换手 6.62% 放到 143 亿成交。昨日仅涨 5.46%、并非涨幅最大，今天却跌最多——
-        这是<strong>机构级筹码在集中出货</strong>，不是散户抛盘（小单反而 +10.30 亿净流入，散户在接）。
-        下周需重点跟踪它能否止跌，PCB 这条线的高度可能由它决定。
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-num blue">🔷</div><span class="section-title">澜起科技专项 | 涨停次日回吐，超大单单边流出</span>
-    <div class="section-body">
-      <div class="lanqi-box">
-        <div class="title">澜起科技 (688008) · 收盘 213.00 元，-3.72%（成交 84.6 亿，换手 3.40%）</div>
-        <div class="metric-grid">
-          <div class="metric"><div class="k">主力净流入</div><div class="v down">-13.31 亿</div></div>
-          <div class="metric"><div class="k">超大单净流入</div><div class="v down">-13.24 亿</div></div>
-          <div class="metric"><div class="k">大单净流入</div><div class="v down">-0.07 亿</div></div>
-          <div class="metric"><div class="k">中单净流入</div><div class="v up">+13.49 亿</div></div>
-        </div>
-        <p style="font-size:13px;margin-top:8px;">
-          <strong>资金结构最关键的一点</strong>：主力净流出 -13.31 亿，其中<strong>超大单 -13.24 亿占了 99.5%</strong>，
-          而<strong>中单净流入 +13.49 亿</strong>——这是<strong>机构单边卖、中小资金单边接</strong>的经典分歧结构。
-          昨天涨停时是超大单 <strong>+18.97 亿</strong>主动买入，今天超大单反手卖出 -13.24 亿，<strong>两天内基本对冲掉了</strong>。
-        </p>
-        <p style="font-size:13px;margin-top:8px;">
-          <strong>价格结构</strong>：全天最高 221.49（几乎等于昨日收盘 221.22）、最低 213.00 <strong>收在最低点</strong>，
-          开盘 217.01。开盘即冲高失败，全天单边下行、尾盘无反抽——<strong>是标准的弱势收盘形态</strong>。
-        </p>
-        <div class="panel panel-yellow" style="margin-top:10px;">
-          📌 <strong>判断（不改昨天的定性）</strong>：昨天我写的是"近 5 日主力 +12.09 亿转正，但近 10 日仍 -6.64 亿，
-          属超跌后情绪反转、非趋势确立"。今天 -13.31 亿流出<strong>验证了这个谨慎判断</strong>——两天合计主力净流入约 +1.9 亿，
-          基本回到原点，<strong>涨停确实只是情绪脉冲</strong>。
-          <br><br>
-          <strong>但基本面逻辑没有变化</strong>：DDR5 涨价、AI 服务器内存需求、招商证券今日仍在提示"存储芯片正从传统元器件
-          转变为算力基础设施的核心稀缺资源"、集成电路行业利润同比 +18.5 倍。<strong>事件事实未变，变的是筹码和情绪。</strong>
-          价格是结果，别拿今天的跌去否定昨天的产业逻辑。
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-num green">④</div><span class="section-title">外围与市场温度 | 外围大涨，A股不跟</span>
-    <div class="section-body">
-      <div class="table-wrap">
-        <table class="table">
-          <tr><th>市场 / 标的</th><th class="num">收盘</th><th class="num">涨跌幅</th></tr>
-          <tr><td>纳斯达克（8/27）</td><td class="num">26,541.35</td><td class="num up">+1.57%</td></tr>
-          <tr><td>标普500（8/27）</td><td class="num">7,730.99</td><td class="num up">+0.72%</td></tr>
-          <tr><td>道指（8/27）</td><td class="num">53,569.44</td><td class="num up">+0.20%</td></tr>
-          <tr><td><strong>英伟达 NVDA</strong></td><td class="num">227.98</td><td class="num up"><strong>+8.74%</strong></td></tr>
-          <tr><td>博通 AVGO</td><td class="num">371.54</td><td class="num up">+4.49%</td></tr>
-          <tr><td>微软 MSFT</td><td class="num">505.06</td><td class="num up">+1.75%</td></tr>
-          <tr><td>AMD</td><td class="num">476.67</td><td class="num down">-0.89%</td></tr>
-          <tr><td>美光 MU</td><td class="num">935.39</td><td class="num down">-0.32%</td></tr>
-          <tr><td>恒生指数（8/28）</td><td class="num">25,410.46</td><td class="num down">-0.61%</td></tr>
-        </table>
-      </div>
-      <div class="panel panel-gray">
-        📌 <strong>这张表是今天最强的证据</strong>：英伟达 +8.74%、博通 +4.49%、纳指 +1.57%——
-        外围 AI 链条<strong>没有任何走弱迹象</strong>。A 股却低开下跌。
-        <strong>如果 AI 逻辑真的破了，美股不会这么涨。</strong>今天的下跌只能归因于 A 股自身的抢跑与筹码。
-        <br>
-        注意 AMD -0.89%、美光 -0.32% 逆势下跌，午后中国台湾、日韩硬科技走弱也传导到了 A 股——外围硬件内部有分化，但不构成方向性利空。
-      </div>
-
-      <p><span class="lead">📊 市场温度计</span></p>
-      <div class="table-wrap">
-        <table class="table">
-          <tr><td>两市成交额</td><td class="num">2.10 万亿（较昨日 2.13 万亿<strong>小幅缩量</strong>）</td></tr>
-          <tr><td>上涨 / 下跌</td><td class="num"><strong>3,013 / 2,390</strong>（上涨占比 54%，仍偏暖）</td></tr>
-          <tr><td>涨停 / 跌停</td><td class="num"><strong>95 / 15</strong>（昨日 78 / 4，涨停家数反而增加）</td></tr>
-          <tr><td>20cm 涨停</td><td class="num">6 家（鼎捷数智、麒麟信安等 AI 应用/网安）</td></tr>
-          <tr><td>本周指数</td><td class="num">沪指 +1.2% / 深成 -1% / 创业板 <strong>-3.42%</strong></td></tr>
-        </table>
-      </div>
-      <div class="panel panel-green">
-        📌 <strong>市场画像</strong>：<strong>指数跌、个股涨、涨停增加</strong>——这三个组合同时出现，说明是
-        <strong>权重与高位股拖累指数，中小盘和低位股在活跃</strong>，赚钱效应并未消失。
-        本周创业板 -3.42% 而沪指 +1.2%，<strong>周线级别的高低切换已经很明确</strong>。
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-num green">⑤</div><span class="section-title">下周观察 & 重点关注</span>
-    <div class="section-body">
-      <p><span class="lead">🎯 必看（3 条）</span></p>
-      <div class="watchlist">
-        <ul>
-          <li><strong>1. 半导体能否止跌回踩到位</strong>：今天主力流出 -128 亿，把昨天的 +180 亿吐掉七成。
-          下周若缩量止跌，则是回踩确认；若继续放量流出，说明高位筹码还没出完，需再等。
-          <strong>参照锚：集成电路行业利润 +18.5 倍这个基本面事实不会变，所以是价格问题不是逻辑问题。</strong></li>
-          <li><strong>2. 胜宏科技（-8.15%，主力 -23 亿）能否止跌</strong>：超大单单边出货、散户接盘，是最危险的结构。
-          它是 PCB/AI 服务器这条线的风向标，若继续破位，沪电、生益等同链条会跟着承压。</li>
-          <li><strong>3. 软科技（AI应用/网安/通用软件）能否接棒成为新主线</strong>：今天横向通用软件 +3.25% 且主力 +21.68 亿，
-          鼎捷数智、麒麟信安 20cm 涨停。<strong>关键看下周能否走出连续性</strong>——若只是一日游，说明市场还是要回到硬科技；
-          若能连涨，则"硬切软"成立，需要调整持仓结构。</li>
-        </ul>
-      </div>
-
-      <p><span class="lead">🛠 自选股当前强弱排序</span></p>
-      <div class="watchlist">
-        <ul>
-          <li><strong>相对抗跌 + 主力流入（下周优先看）</strong>：通富微电 +0.03%（主力 +0.71 亿）、沪电股份 -0.26%（<strong>+3.83 亿</strong>）、
-          中际旭创 -0.90%（<strong>+2.08 亿</strong>）、天孚通信 -1.34%（+0.53 亿）</li>
-          <li><strong>温和调整（观察）</strong>：长电科技 -2.10%、新易盛 -2.47%、罗博特科 -2.79%、北方华创 -2.85%</li>
-          <li><strong>大幅回吐（等止跌信号，不接刀）</strong>：兆易创新 -3.50%（-16.33 亿）、
-          澜起科技 -3.72%（-13.31 亿）、<strong>胜宏科技 -8.15%（-23.01 亿）</strong></li>
-        </ul>
-      </div>
-
-      <div class="panel panel-gray">
-        💭 <strong>我的判断</strong>：这是<strong>利好兑现引发的筹码再平衡</strong>，不是趋势转折。三条依据：
-        <br>① <strong>外围反证</strong>：英伟达 +8.74%、纳指 +1.57%，AI 需求端毫无松动。A 股跌是自己抢跑造成的。
-        <br>② <strong>基本面反证</strong>：集成电路行业利润同比 <strong>+18.5 倍</strong>、电子行业利润 +1.1 倍（统计局今日数据），
-        产业景气度是硬数据确认的，不是叙事。
-        <br>③ <strong>市场内部反证</strong>：成交仅小幅缩量、涨停 95 家多于昨日 78 家、涨跌比仍 3013:2390。资金在场内换方向，没离场。
-        <br><br>
-        <strong>但要承认两个不确定</strong>：一是电网设备出口管制若真落地，半导体材料/设备的压制会持续；
-        二是硬科技高位筹码究竟出没出完，今天一天看不出来，需要下周缩量止跌来确认。
-        <br><br>
-        <strong>策略</strong>：不追今天涨的软科技（一日游风险），不接今天跌最狠的硬科技（筹码未出清）。
-        优先看<strong>今天抗跌且主力流入的沪电、中际旭创、通富</strong>——这类"跌不动还有钱进"的标的，往往是下一轮的先手。
+        <b>💭 我的判断</b>：今天是<b>「利好兑现型获利回吐」+「高低切换」，不是逻辑破坏</b>。三条依据：<br>
+        ① 英伟达隔夜 +8.74% 大涨，海外 AI 算力需求端没有问题，A 股跌的是筹码面而非基本面<br>
+        ② 产业逻辑当日全部完好：Vera Rubin 量产、存储涨价、CSP 资本开支持续上行、发改委全链条集成电路政策托底<br>
+        ③ 大盘上涨 3013 家、融资余额止跌回升 +0.43%，流动性充裕，资金只是从高位算力切向低位顺周期<br><br>
+        但短期需防守——<b>获利盘消化需要时间</b>，胜宏、澜起、兆易这些前期涨幅最大的标的正处于集中兑现期，不要在恐慌中接刀。策略上：<b>保留龙头（旭创、通富微电），等待缩量止跌信号；国产替代链（设备/封测）相对抗跌，是这轮回调的相对收益方向</b>。若明日主线缩量企稳，则回调大概率是上车机会而非趋势反转。
       </div>
     </div>
   </div>
 
   <div class="footer">
-    📅 报告生成时间：2026-08-28 15:40 · 数据源：东方财富 / 新浪财经 / 统计局 / 公开市场数据<br>
+    📅 报告生成时间：2026-08-28 15:32 · 数据源：NeoData 金融搜索<br>
     关注方向：AI 算力 + 半导体 · 下一份将于 2026-08-31（周一）15:30 推送
   </div>
 
