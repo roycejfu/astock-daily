@@ -163,6 +163,14 @@ def update_index(entries, meta):
         rf'\g<1>{latest_meta["title"]}\g<2>',
         html, flags=re.S
     )
+    # 「查看最新」按钮直接指向 archive/<最新日期>.html。
+    # 2026-09-23 起不再依赖 latest.html 这个副本：它只是 archive 里最新一份的复制，
+    # 既冗余、又因为每次都要整文件覆盖而受本机文件策略拦截（PermissionError）。
+    html = re.sub(
+        r'(<a class="btn" href=")[^"]*(">查看最新)',
+        rf'\g<1>archive/{latest_date}.html\g<2>',
+        html
+    )
 
     # 重建历史列表
     list_html = build_list_html(entries, meta)
@@ -212,8 +220,9 @@ def main():
         # 复制到 archive 和 latest
         dest = os.path.join(ARCHIVE_DIR, f"{date_str}.html")
         shutil.copy2(args.report, dest)
-        shutil.copy2(args.report, LATEST_PATH)
         print(f"[OK] 报告已归档: archive/{date_str}.html")
+        # ⛔ 不再写 latest.html：index 的「查看最新」已改为直接指向 archive/<date>.html。
+        #    保留旧的 latest.html 文件不动（历史链接仍可访问），但不再覆盖它。
 
         # 记录 meta
         meta[date_str] = {"trend": args.trend, "title": args.title}
