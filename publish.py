@@ -4,14 +4,20 @@
 A股每日收盘复盘 · GitHub Pages 发布脚本
 
 用法：
+  # 归档版（历史复盘列表，写到 archive/）
   python3 publish.py --report /path/to/收盘总结_2026-08-11.html \
                      --date 2026-08-11 \
                      --title "CPO 反弹修复，FCC 禁令暂缓" \
                      --trend up|down|mixed
 
+  # 合并版（数据层+归因层二合一，写到 merged/）—— 2026-10-12 起为唯一正式日报
+  python3 publish.py --report /path/to/合并版_2026-10-12.html \
+                     --date 2026-10-12 --subdir merged \
+                     --title "一句话摘要" --trend down
+
 功能：
-  1. 把报告复制到 archive/<date>.html 并更新 latest.html
-  2. 自动重建 index.html 里的历史列表（按日期倒序）
+  1. 把报告写入 <subdir>/<date>.html（subdir 默认 archive）
+  2. subdir=archive 时重建 index.html 历史列表；subdir=merged 时更新首页「合并版」入口
   3. commit 并 push 到 gh-pages 分支
 """
 import argparse
@@ -23,7 +29,8 @@ import sys
 from datetime import datetime
 
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
-ARCHIVE_DIR = os.path.join(SITE_DIR, "archive")
+DEFAULT_SUBDIR = "archive"
+ARCHIVE_DIR = os.path.join(SITE_DIR, DEFAULT_SUBDIR)
 INDEX_PATH = os.path.join(SITE_DIR, "index.html")
 LATEST_PATH = os.path.join(SITE_DIR, "latest.html")
 
@@ -54,12 +61,13 @@ def run(cmd, cwd=SITE_DIR, check=True):
     return result.stdout.strip()
 
 
-def scan_archive():
-    """扫描 archive 目录，返回 [(date_str, weekday_cn), ...] 按日期倒序"""
-    if not os.path.isdir(ARCHIVE_DIR):
+def scan_archive(subdir=DEFAULT_SUBDIR):
+    """扫描 <subdir> 目录，返回 [(date_str, weekday_cn), ...] 按日期倒序"""
+    d = os.path.join(SITE_DIR, subdir)
+    if not os.path.isdir(d):
         return []
     entries = []
-    for fn in os.listdir(ARCHIVE_DIR):
+    for fn in os.listdir(d):
         m = re.match(r"^(\d{4}-\d{2}-\d{2})\.html$", fn)
         if m:
             date_str = m.group(1)
@@ -141,8 +149,41 @@ def build_list_html(entries, meta):
     return "\n".join(lines)
 
 
-def update_index(entries, meta):
-    """更新 index.html 的最新报告信息和历史列表"""
+def update_merged_entry(date_str, title):
+    """subdir=merged 时：只更新首页「合并版」入口的日期/摘要/链接，不动历史列表。
+
+    历史列表（archive/）由归档版单独维护 —— 合并版是唯一正式日报后，
+    archive 仍保留历史归档，两者互不干扰。
+    """
+    with open(INDEX_PATH, "r", encoding="utf-8") as f:
+        html = f.read()
+    # 用「是否找到锚点」判断匹配，而不是「替换后是否有变化」——
+    # 同日重发时内容可能完全一致，用 diff 判断会误报「未匹配」。
+    matched = ('id="merged-date"' in html) and ('id="merged-desc"' in html)
+    if not matched:
+        print("[WARN] index.html 未找到合并版入口锚点（id=merged-date / merged-desc），"
+              "跳过（结构可能已变）")
+        return False
+    html = re.sub(
+        r'(<div class="date" id="merged-date"[^>]*>).*?(</div>)',
+        rf'\g<1>{date_str} 单篇合并版\g<2>', html, flags=re.S
+    )
+    html = re.sub(
+        r'(<div class="desc" id="merged-desc"[^>]*>).*?(</div>)',
+        rf'\g<1>{title}\g<2>', html, flags=re.S
+    )
+    html = re.sub(
+        r'(<a class="btn" href=")merged/[^"]*(")',
+        rf'\g<1>merged/{date_str}.html\g<2>', html
+    )
+    with open(INDEX_PATH, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"[OK] index.html 合并版入口已指向 {date_str}")
+    return True
+
+
+def update_index(entries, meta, subdir=DEFAULT_SUBDIR):
+    """更新 index.html 的最新报告信息和历史列表（仅 subdir=archive 时调用）"""
     with open(INDEX_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
@@ -192,12 +233,16 @@ def main():
     ap.add_argument("--title", default="收盘主线复盘", help="一句话摘要")
     ap.add_argument("--trend", default="mixed",
                     choices=["up", "down", "mixed"], help="主线强弱")
+    ap.add_argument("--subdir", default=DEFAULT_SUBDIR,
+                    choices=["archive", "merged"],
+                    help="输出子目录：archive=历史归档（默认） / merged=合并版正式日报")
     ap.add_argument("--no-push", action="store_true", help="只更新本地不推送")
     ap.add_argument("--rebuild", action="store_true",
                     help="仅重建 index（不导入新报告）")
     args = ap.parse_args()
 
-    os.makedirs(ARCHIVE_DIR, exist_ok=True)
+    out_dir = os.path.join(SITE_DIR, args.subdir)
+    os.makedirs(out_dir, exist_ok=True)
     meta = load_meta()
 
     if not args.rebuild:
@@ -217,8 +262,8 @@ def main():
                   file=sys.stderr)
             sys.exit(1)
 
-        # 复制到 archive 和 latest
-        dest = os.path.join(ARCHIVE_DIR, f"{date_str}.html")
+        # 写入 <subdir>/<date>.html
+        dest = os.path.join(out_dir, f"{date_str}.html")
         # ⚠️ 2026-10-08：shutil.copy2 覆盖已存在的归档文件会被本机文件策略拦截
         #    （Brokered host copy overwrite refused → 发布中断在归档之后、commit 之前）。
         #    改「读取 + 直接写入」，语义相同但不走 copy 的删除/重建路径（与 flow-site 同步）。
@@ -226,16 +271,19 @@ def main():
             _content = src.read()
         with open(dest, "w", encoding="utf-8") as dst:
             dst.write(_content)
-        print(f"[OK] 报告已归档: archive/{date_str}.html")
+        print(f"[OK] 报告已写入: {args.subdir}/{date_str}.html")
         # ⛔ 不再写 latest.html：index 的「查看最新」已改为直接指向 archive/<date>.html。
-        #    保留旧的 latest.html 文件不动（历史链接仍可访问），但不再覆盖它。
 
-        # 记录 meta
-        meta[date_str] = {"trend": args.trend, "title": args.title}
-        save_meta(meta)
+        if args.subdir == DEFAULT_SUBDIR:
+            meta[date_str] = {"trend": args.trend, "title": args.title}
+            save_meta(meta)
 
-    entries = scan_archive()
-    update_index(entries, meta)
+    if args.subdir == "merged":
+        update_merged_entry(
+            args.date or datetime.now().strftime("%Y-%m-%d"), args.title)
+    else:
+        entries = scan_archive(args.subdir)
+        update_index(entries, meta, args.subdir)
 
     # git 提交推送
     if args.no_push:
@@ -248,9 +296,14 @@ def main():
         print("[SKIP] 无变更，无需提交")
         return
 
-    commit_date = entries[0][0] if entries else datetime.now().strftime("%Y-%m-%d")
+    if args.subdir == "merged":
+        commit_date = args.date or datetime.now().strftime("%Y-%m-%d")
+        commit_msg = f"合并版日报更新 {commit_date}"
+    else:
+        commit_date = entries[0][0] if entries else datetime.now().strftime("%Y-%m-%d")
+        commit_msg = f"收盘复盘更新 {commit_date}"
     # 沙箱环境无全局 git config，必须显式带 committer 身份，否则 commit 会失败
-    run(f'{GIT_ID} commit -q -m "收盘复盘更新 {commit_date}"')
+    run(f'{GIT_ID} commit -q -m "{commit_msg}"')
     print(f"[OK] 已提交")
 
     # 推送到 gh-pages 分支（失败自动重试一次）
@@ -275,7 +328,10 @@ def main():
     print("[OK] 已推送到 gh-pages")
     # 二次校验远端 HEAD，防止「本地已提交但远端未追上」的日期撕裂
     verify_remote_synced("gh-pages")
-    print("[URL] https://roycejfu.github.io/astock-daily/")
+    if args.subdir == "merged":
+        print(f"[URL] https://roycejfu.github.io/astock-daily/merged/{commit_date}.html")
+    else:
+        print("[URL] https://roycejfu.github.io/astock-daily/")
 
 
 if __name__ == "__main__":
