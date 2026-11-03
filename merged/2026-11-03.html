@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A股日报 2026-11-03 · 光模块被点名，科创50跌3.81%回吐前日反弹</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; padding: 20px 20px 60px; }
+  .container { max-width: 880px; margin: 0 auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 55%, #66bb6a 100%); color: #fff; padding: 22px 28px; }
+  .header .brand { font-size: 21px; font-weight: 700; }
+  .header .brand small { font-size: 12px; font-weight: 400; opacity: .8; margin-left: 8px; }
+  .header .date { font-size: 12.5px; opacity: .88; margin: 3px 0 12px; }
+  .header .title { font-size: 17.5px; font-weight: 700; line-height: 1.5; }
+  .header .subtitle { font-size: 13px; opacity: .93; margin-top: 8px; line-height: 1.65; }
+
+  .nav { position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid #e6e6e6; padding: 7px 14px; display: flex; flex-wrap: wrap; gap: 3px; }
+  .nav a { font-size: 11.5px; color: #455a64; text-decoration: none; padding: 4px 8px; border-radius: 6px; white-space: nowrap; }
+  .nav a:hover { background: #eceff1; color: #d32f2f; }
+
+  .notice { background: #fff8e1; border-bottom: 1px solid #ffe082; padding: 10px 28px; font-size: 12px; line-height: 1.65; color: #795548; }
+  .notice b { color: #6d4c41; }
+
+  .ticker { background: #fafafa; padding: 14px 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; border-bottom: 1px solid #eee; }
+  .ticker-item { text-align: center; }
+  .ticker-item .name { font-size: 11px; color: #888; }
+  .ticker-item .val { font-size: 16px; font-weight: 600; }
+  .ticker-item .chg { font-size: 12px; font-weight: 600; }
+  .up { color: #d32f2f; } .down { color: #2e7d32; } .flat { color: #888; }
+
+  .section { padding: 20px 28px; border-bottom: 1px solid #f0f0f0; scroll-margin-top: 40px; }
+  .section:last-of-type { border-bottom: none; }
+  .section-num { display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; background: #ef6c00; color: #fff; border-radius: 50%; font-size: 12.5px; font-weight: 700; margin-right: 7px; vertical-align: middle; }
+  .section-num.red { background: #d32f2f; } .section-num.green { background: #2e7d32; }
+  .section-num.blue { background: #1565c0; } .section-num.purple { background: #6a1b9a; }
+  .section-num.slate { background: #607d8b; } .section-num.teal { background: #00695c; }
+  .section-title { font-size: 15.5px; font-weight: 700; display: inline-block; vertical-align: middle; margin-bottom: 10px; }
+  .section-body { font-size: 13.5px; line-height: 1.8; color: #2c2c2e; }
+
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
+  .metric { background: #fafbfc; border: 1px solid #eceff1; border-radius: 8px; padding: 8px 10px; }
+  .metric .k { font-size: 10.5px; color: #888; }
+  .metric .v { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .metric .s { font-size: 10.5px; color: #999; line-height: 1.45; }
+
+  .table-wrap { margin: 10px 0; border: 1px solid #eee; border-radius: 8px; overflow-x: auto; }
+  .table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  .table th, .table td { padding: 5px 7px; text-align: left; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
+  .table th { background: #f7f7f7; font-weight: 600; color: #666; }
+  .table tr:last-child td { border-bottom: none; }
+  .table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .table .sector-hdr td { background: #eef4fb; font-weight: 700; color: #1565c0; }
+  .table .sector-sum td { background: #f6f8fa; font-weight: 600; }
+  .table .warn-row td { background: #fff4f4; }
+
+  .panel { border-left: 3px solid #d32f2f; padding: 10px 14px; border-radius: 4px; margin: 10px 0; font-size: 12.5px; line-height: 1.75; }
+  .panel-red { border-left-color: #d32f2f; background: #fdf6f6; }
+  .panel-yellow { border-left-color: #fbc02d; background: #fffdf5; }
+  .panel-gray { border-left-color: #9e9e9e; background: #f7f7f9; }
+  .panel-blue { border-left-color: #1565c0; background: #f5f9ff; }
+  .panel-green { border-left-color: #2e7d32; background: #f3faf3; }
+
+  .catalyst-box { background: #f7f9fc; border: 1px solid #dde5ee; border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 12.5px; line-height: 1.7; }
+  .catalyst-box ul { margin-left: 17px; }
+  .catalyst-box li { margin-bottom: 4px; }
+
+  .check-item { border-left: 3px solid #ccc; padding: 8px 12px; margin: 8px 0; background: #fafafa; border-radius: 4px; font-size: 12.5px; line-height: 1.7; }
+  .check-item.ok { border-left-color: #2e7d32; background: #f3faf3; }
+  .check-item.no { border-left-color: #d32f2f; background: #fdf6f6; }
+  .check-item.wait { border-left-color: #fbc02d; background: #fffdf5; }
+  .check-head { font-weight: 700; margin-bottom: 4px; font-size: 13px; }
+
+  ul, ol { margin: 7px 0 7px 19px; }
+  li { margin-bottom: 5px; }
+  .footer { padding: 14px 28px; background: #fafafa; font-size: 11px; color: #999; line-height: 1.7; }
+  .hl { background: #fff3cd; padding: 0 3px; border-radius: 2px; }
+  .crit { background: #ffebee; padding: 0 3px; border-radius: 2px; font-weight: 600; }
+  .charts { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 12px 0; }
+  .chart-box { border: 1px solid #eee; border-radius: 8px; padding: 8px; }
+  .chart-box .ct { font-size: 12px; color: #666; margin-bottom: 4px; font-weight: 600; }
+  .chart { height: 300px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="brand">A股日报 · 合并版<small>数据层 + 归因层</small></div>
+    <div class="date">2026-11-03（周二）· 收盘口径 · 生成 16:45</div>
+    <div class="title">光模块被点名：科创50 −3.81% 一次性回吐昨日涨幅，四赛道 10 日缺口全部走阔</div>
+    <div class="subtitle">Marvell 拟 1150 亿美元全股票收购 Lumentum（Lumentum −18.59%），叠加高盛下调中际旭创 2026–2028 盈利预测——两条都<b>点名到了具体标的</b>。旭创 −12.69% 是全池最深，光模块池内 α −2.66% 四个方向最负。隔夜费半 −3.37%、AMD −7.52%、MU −5.78%，A 股这次是同向跟随（科创50 跌幅只有费半的 1.13 倍），不是背离。硬证据在资金：存储/CPO/先进封装/PCB/半导体五个板块的 10 日主力缺口<b>全部比昨天更深</b>。</div>
+  </div>
+
+  <div class="nav">
+    <a href="#s1">①全景与驱动</a><a href="#s2">②资金全景</a><a href="#s3">③结构分化</a><a href="#s4">④跨市场</a><a href="#s5">⑤昨日校验</a><a href="#s6">⑥澜起专项</a><a href="#s7">⑦前瞻与结论</a>
+  </div>
+
+  <div class="notice">
+    <b>口径与缺口：</b>① 个股五档（f62/f66/f72/f78/f84）走东财 <b>push2delay ulist.np</b>，恒等式逐只核对通过；1/5/10 日走 <b>flow_trend.py</b>。② 板块为东财 ulist BK 口径（f62/f164/f174）；⚠️ <b>与 NeoData 不可相减</b>。⛔ 东财 clist 板块榜与全市场分页<b>当日返回异常分页</b>，改为 <b>BK 代码批量扫描 657 个板块 + 本地排序</b>。③ 涨跌家数为东财指数 f104/f105（沪 989/1304/63 + 深 1078/1761/98 = <b>涨 2067 / 跌 3065 / 平 161</b>，上涨占比 39.0%），<b>交易所口径非估算</b>；北交所（北证50 −4.02%）未计入。④ 涨停 <b>48</b> 为东财涨停池口径；<b>跌停池接口返空 → 留白</b>。⑤ 汇率 HKD/CNY = <b>0.8507</b>（新浪实时，非兜底）。⑥ 融资余额为 <b>11-02</b> 口径（T+1）。⑦ 港股 16:08、美股美东 11/02 收盘口径。⑧ ⛔ 希捷/西数/闪迪/甲骨文/KOSPI 跌幅来自盘前研报与媒体转述，<b>未逐只核对，仅作催化背景、不进任何计算</b>；南向个股净买入今晚披露。
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-item"><div class="name">上证指数</div><div class="val">3,608.10</div><div class="chg down">−0.82%</div></div>
+    <div class="ticker-item"><div class="name">深证成指</div><div class="val">10,876.99</div><div class="chg down">−1.21%</div></div>
+    <div class="ticker-item"><div class="name">创业板指</div><div class="val">2,391.65</div><div class="chg down">−2.73%</div></div>
+    <div class="ticker-item"><div class="name">科创50</div><div class="val">1,151.28</div><div class="chg down">−3.81%</div></div>
+  </div>
+
+  <!-- ① 全景与驱动 -->
+  <div class="section" id="s1">
+    <div><span class="section-num red">1</span><span class="section-title">全景与驱动 · 今天发生了什么、为什么</span></div>
+    <div class="section-body">
+
+      <div class="metrics">
+        <div class="metric"><div class="k">自选8只 · 当日主力</div><div class="v down">−90.58 亿</div><div class="s">11/02 为 +4.61 亿，方向再反转</div></div>
+        <div class="metric"><div class="k">两市成交额</div><div class="v">1.7034 万亿</div><div class="s">较 11/02 缩量约 770 亿</div></div>
+        <div class="metric"><div class="k">上涨占比</div><div class="v down">39.0%</div><div class="s">涨 2,067 / 跌 3,065（11/02 为 84.9%）</div></div>
+        <div class="metric"><div class="k">涨停 / 跌停</div><div class="v">48 / —</div><div class="s">11/02 为 125；跌停池接口返空</div></div>
+      </div>
+
+      <p>今天是<b>昨日反弹的完整回吐</b>，而且是<b>放量回吐</b>。上证开盘 3624.58 即为全天最高，早盘一度跌破 3600 探到 3580.38，尾盘勉强收回 3608.10；创业板开 2429.77（也是全天最高）后一路走低，收 2391.65 失守 2400 整数关；科创50 开 1184.53 即最高，最低 1132.33，收 1151.28——<span class="crit">四大指数里三个是"开盘即最高"，全天没有一次像样的反抽</span>。北证50 −4.02%，是全场最弱指数。唯一红盘的是上证50 <span class="up">+0.21%</span>。</p>
+
+      <div class="catalyst-box">
+        <b>催化剂清单（11/03 当日生效）— 先看清单，再看谁挂得上；挂不上的那些，涨/跌的原因就是"挂不上"</b>
+        <ul>
+          <li>① ⭐ <b>Marvell 拟约 1150 亿美元全股票收购 Lumentum（负面·外围·点名光模块上游）</b>：Lumentum 隔夜 <b>−18.59%</b>。市场担忧 DSP 与 EML 激光器两大核心上游组件集中到同一主体，国内模组厂供应链议价环境收紧。<b>挂得上</b>：中际旭创、新易盛、天孚通信、光迅、源杰等国内光模块/光器件。</li>
+          <li>② ⭐ <b>高盛下调中际旭创 2026–2028 盈利预测（负面·点名个股）</b>。<b>挂得上</b>：中际旭创本身（池内唯一光模块标的）。</li>
+          <li>③ <b>隔夜美股科技分化、半导体重挫（负面·外围）</b>：费半 SOX <b>−3.37%</b>、SOXX ETF −3.79%、纳指 −1.07%、标普 −0.51%、AMD −7.52%、MU −5.78%、MSFT −2.83%、NVDA −1.26%、AVGO −1.18%；道指 <b>+0.41%</b> 逆势收红。<b>挂得上</b>：全部 AI 硬件链。</li>
+          <li>④ <b>存储链全线重挫（负面·外围·点名存储）</b>：MU −5.78%（成交额全市场第一）；媒体/研报转述希捷 −7.88%、西数 −7.52%、闪迪 −6.59%、甲骨文 −8.76%。<b>挂得上</b>：长鑫、兆易、澜起以及池外模组/分销（江波龙、佰维、德明利、香农芯创）。</li>
+          <li>⑤ <b>韩国半导体暴跌（负面·亚太·盘中）</b>：KOSPI 午后一度 −4%，SK 海力士 −6%+、三星 −5%（媒体口径未核对）。<b>挂得上</b>：存储、半导体盘中情绪。</li>
+          <li>⑥ <b>美国中期选举 11/3 投票 + 苹果财报前观望（负面·情绪）</b>：风险偏好收缩，油价一度暴跌超 8%、地缘信号混杂。<b>挂得上</b>：全市场估值端，不针对行业。</li>
+          <li>⑦ <b>央行第三轮互换便利操作、申请额度超 1000 亿；股票回购增持再贷款利率降至 1% 并转长期制度性安排（正面·国内）</b>。<b>挂得上</b>：流动性底盘，不针对行业。</li>
+          <li>⑧ ⭐ <b>午后 4 只宽基 ETF（上证50/创业板/沪深300/科创50）同日成交破百亿，为 2024 年"924"以来首次（正面·护盘）</b>。<b>挂得上</b>：指数权重。</li>
+          <li>⑨ <b>北京市《"十五五"新型能源体系规划》（正面·光伏）</b>：聚焦钙钛矿与高效组件。<b>挂得上</b>：光伏设备 +0.82%（主力 +8.50）。</li>
+          <li>⑩ <b>高盛称 2026Q3 为白酒盈利低谷、2027 增速回升（正面·白酒）</b>。<b>挂得上</b>：白酒Ⅱ +1.43%（主力 +2.99）。</li>
+        </ul>
+      </div>
+
+      <div class="panel panel-red">
+        <b>📌 归因起手式：先列全清单，再看谁挂得上。</b><br>
+        · <b>被点名、跌得最狠的</b>：中际旭创（①+② 双点名，一条点上游一条点它自己）→ <b>−12.69% 全池最深</b>、主力 −27.76 亿、CLV <b>0.00</b> 收在全天最低、量比 1.77x 全池最大。天孚通信、新易盛跌超 10%，景旺/生益/华正/光迅/兴森跌停（媒体口径）。<span class="crit">这正是 10/12 型的"点名式利空"——最有故事、最拥挤的头部恰恰是被打击最狠的那只。</span><br>
+        · <b>被点名但跌得少的</b>：存储（④ 点名美光/希捷/西数）→ 池内 长鑫 −7.00%、兆易 −5.84%、澜起 −8.85%，而赛道 −7.99%：<span class="hl">点名的是海外存储原厂与国内模组/分销，池内三只是颗粒与接口，不是被点名的那一层</span>，所以池内 α 反而为正（+0.76%）。<br>
+        · <b>挂不上任何负催化却涨的</b>：上证50 +0.21%（全场唯一红盘指数）、保险Ⅲ +2.66%、养殖业 +2.70%、白酒Ⅱ +1.43%、电池 +1.63%、光伏设备 +0.82%、视频媒体 +3.89%（AI 漫剧扩散）—— 涨的原因就是"钱从 AI 硬件搬过来了"，不是它们自己出了利好。<b>按纪律不编链条。</b>
+      </div>
+
+      <div class="panel panel-blue">
+        <b>⚠️ 今天不是背离，是"同向跟随 + 昨日涨幅回吐"——与 11/02 正好是同一枚硬币的两面。</b><br>
+        · 11/02 是外围暴跌 8% 而 A 股逆势 +3.11%（传导失效）；今天是外围 −3.37% 而 A 股跟跌。<span class="hl">传导没有"失效"，11/02 的问题是时差——昨天没跌的部分今天补上了。</span><br>
+        · <b>β 这次解释力很高</b>：科创50 −3.81% ÷ 费半 −3.37% = <b>1.13 倍</b>；创业板 −2.73% 还在费半之内。对比 11/02 方向相反、幅度差近 10 倍 —— <b>今天不需要找 A 股自己的大变量，外围就是主因</b>。<br>
+        · ⛔ 三种背离模板（8/28 透支 / 9/14 抢跑 / 9/15 对冲）<b>都不适用</b>——它们都以"方向相反"为前提，今天方向相同。定性是 <b>同向跟随 + 11/02 涨幅回吐 + 点名式利空的结构性放大</b>。<br>
+        · <b>但"中国资产被系统性抛售"不成立</b>：恒指 <span class="up">+0.57%</span>、恒科 <span class="up">+0.74%</span> 逆势收红。<span class="crit">最强反证：港股 AI 硬件 H 股照跌（旭创 H −10.92%、澜起 H −6.55%、兆易 H −4.46%），但港股指数收红——砸的是 AI 硬件这一条链，不是中国资产。</span>A 股指数被拖垮，是因为科创50/创业板里 AI 硬件权重太高。
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ② 资金全景 -->
+  <div class="section" id="s2">
+    <div><span class="section-num blue">2</span><span class="section-title">资金全景 · 板块层面（东财 BK 口径）</span></div>
+    <div class="section-body">
+
+      <div class="charts">
+        <div class="chart-box"><div class="ct">四赛道板块：当日 vs 近10日主力净额（亿元）</div><div id="chartSector" class="chart"></div></div>
+        <div class="chart-box"><div class="ct">自选8只：当日 / 近5日 / 近10日主力净额（亿元）</div><div id="chartStock" class="chart"></div></div>
+      </div>
+
+      <div class="table-wrap"><table class="table">
+        <tr><th>主力净流出 TOP8</th><th class="num">涨跌</th><th class="num">当日</th><th class="num">5日</th><th class="num">10日</th><th>主力净流入 TOP5</th><th class="num">涨跌</th><th class="num">当日</th><th class="num">5日</th><th class="num">10日</th></tr>
+        <tr><td>通信技术</td><td class="num down">−3.64%</td><td class="num down">−241.28</td><td class="num down">−504.80</td><td class="num down">−947.82</td><td>电力设备</td><td class="num up">+0.31%</td><td class="num up">+34.32</td><td class="num down">−34.34</td><td class="num down">−201.70</td></tr>
+        <tr><td>电子（一级）</td><td class="num down">−3.99%</td><td class="num down">−236.26</td><td class="num down">−454.86</td><td class="num down">−789.97</td><td>电池</td><td class="num up">+1.63%</td><td class="num up">+25.32</td><td class="num up">+2.56</td><td class="num down">−95.41</td></tr>
+        <tr><td>CPO概念 BK1128</td><td class="num down">−5.99%</td><td class="num down">−157.76</td><td class="num down">−331.46</td><td class="num down">−581.66</td><td>宁组合</td><td class="num up">+0.91%</td><td class="num up">+17.82</td><td class="num up">+32.71</td><td class="num down">−68.99</td></tr>
+        <tr><td>光通信模块</td><td class="num down">−5.44%</td><td class="num down">−133.11</td><td class="num down">−246.39</td><td class="num down">−478.87</td><td>动力电池回收</td><td class="num down">−0.08%</td><td class="num up">+16.18</td><td class="num up">+11.35</td><td class="num down">−30.80</td></tr>
+        <tr><td>半导体 BK1036</td><td class="num down">−5.15%</td><td class="num down">−131.43</td><td class="num down">−208.98</td><td class="num down">−310.62</td><td>保险Ⅲ</td><td class="num up">+2.66%</td><td class="num up">+7.60</td><td class="num up">+16.62</td><td class="num up">+14.32</td></tr>
+        <tr><td>存储芯片 BK1137</td><td class="num down">−4.86%</td><td class="num down">−124.96</td><td class="num down">−191.57</td><td class="num down">−345.25</td><td colspan="5" rowspan="3" style="white-space:normal;vertical-align:top;color:#666">⭐ <b>保险Ⅲ 是今天唯一三期全正的规模板块</b>（+7.60 / +16.62 / +14.32），白酒Ⅱ 同样三期全正（+2.99 / +25.98 / +30.45，涨 +1.43%）。<br><br>⚠️ <b>流入端 5 个里 4 个 10 日仍为负</b>（电力设备 −201.70、电池 −95.41、宁组合 −68.99、动力电池回收 −30.80）——电池/光伏今天的流入是<b>低位轮动，不是中期资金转向</b>。<br><br>⛔ 与 11/02 对照：11/02 流入端 8 个板块 5/10 日<b>全部为负</b>；今天同样是"当日流入、中期仍深"，<b>结构一点没变</b>。</td></tr>
+        <tr><td>通信（一级）</td><td class="num down">−3.76%</td><td class="num down">−103.02</td><td class="num down">−182.93</td><td class="num down">−328.93</td></tr>
+        <tr><td>通信设备 BK0448</td><td class="num down">−4.41%</td><td class="num down">−100.91</td><td class="num down">−174.55</td><td class="num down">−309.78</td></tr>
+        <tr><td colspan="10" style="color:#888;white-space:normal">留档（未进 TOP8）：数字芯片设计 −89.38 / −110.46 / −61.91；<b>先进封装 BK1101 −64.61 / −140.87 / −251.73</b>；<b>印制电路板 BK1340 −52.17 / −86.27 / −234.92</b>；算力概念 −118.88 / −225.01 / −375.66；机器人概念 −124.85 / −294.13 / −443.39；半导体设备 −6.76%（−5.39）；半导体材料 −6.20%（−9.91）；高带宽内存 −5.45%（−11.97）；消费电子 −2.72%（−24.65）。<b>涨幅榜（并入备注）</b>：教育运营 +9.84%、涂料 +5.07%、氨纶 +4.17%、视频媒体 +3.89%、蓄电池 +3.76%；防御逆势：养殖业 +2.70%、游戏Ⅱ +1.69%、白酒Ⅱ +1.43%。<b>跌幅榜</b>：半导体设备 −6.76%、通信网络设备及器件 −6.62%、百元股 −6.21%、半导体材料 −6.20%。涨停池行业：电池 7、一般零售 4、游戏Ⅱ 3、服装家纺 3。</td></tr>
+      </table></div>
+
+      <div class="panel panel-red">
+        <b>一句读数：这是本期最硬的一条 —— 五个板块的 10 日缺口<b>全部走阔</b>，11/02 的"止血反弹"被彻底作废。</b><br>
+        · 存储芯片 10 日 −251.09 → <b>−345.25</b>（走阔 94.16）｜CPO −433.20 → <b>−581.66</b>（走阔 148.46，最深）｜先进封装 −190.81 → <b>−251.73</b>（走阔 60.92）｜印制电路板 −178.04 → <b>−234.92</b>（走阔 56.88）｜半导体 −198.47 → <b>−310.62</b>（走阔 112.15）<br>
+        <span class="crit">11/02 我说"当日流入只填了 3.7%–23.2%，是止血不是回补"——今天证明连止血都没止住：缺口不但没收窄，反而集体扩大。"判断见底看 10 日能否收窄"这条纪律今天<b>明确给出否定答案</b>。</span><br>
+        · ⛔ <b>PCB 口径警告（沿用 10/30 教训）</b>：BK1340 当日 −52.17，与 10/30 那次（BK −8.35 vs 篮子 −21.34，差 2.5 倍）同样有低估风险。今天无篮子资金数据，<b>PCB 赛道资金以 BK1340 为参考但标注不确定</b>；个股端胜宏 −10.15、深南 −3.69 与板块符号一致，无撤回项。
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ③ 结构分化 -->
+  <div class="section" id="s3">
+    <div><span class="section-num purple">3</span><span class="section-title">结构分化 · 自选股按方向分组（池内 / 赛道 / α 三列口径）</span></div>
+    <div class="section-body">
+
+      <div class="table-wrap"><table class="table">
+        <tr><th>方向</th><th class="num">① 池内</th><th class="num">② 赛道(篮子)</th><th class="num">③ 池内α</th><th class="num">池内资金</th><th class="num">赛道资金</th><th class="num">11/02 α</th><th>α变化</th><th>资金符号</th></tr>
+        <tr><td>存储</td><td class="num down">−7.23%</td><td class="num down">−7.99%</td><td class="num up">+0.76%</td><td class="num down">−47.65</td><td class="num down">−124.96</td><td class="num up">+0.28%</td><td>正·扩大</td><td>✅ 一致</td></tr>
+        <tr class="warn-row"><td>光模块</td><td class="num down">−12.69%</td><td class="num down">−10.03%</td><td class="num down">−2.66%</td><td class="num down">−27.76</td><td class="num down">−157.76</td><td class="num down">−0.55%</td><td>⚠️ 负·走阔4.8倍</td><td>✅ 一致</td></tr>
+        <tr><td>PCB</td><td class="num down">−9.56%</td><td class="num down">−8.64%</td><td class="num down">−0.92%</td><td class="num down">−13.84</td><td class="num down">−52.17</td><td class="num down">−1.61%</td><td>负·收窄</td><td>✅ 一致</td></tr>
+        <tr><td>先进封装</td><td class="num down">−7.12%</td><td class="num down">−6.15%</td><td class="num down">−0.97%</td><td class="num down">−1.33</td><td class="num down">−64.61</td><td class="num up">+0.26%</td><td>⚠️ 翻转（正→负）</td><td>✅ 一致</td></tr>
+        <tr><td colspan="9" style="white-space:normal;color:#666">"池内"=自选股等权（存储3/光模块1/PCB2/先进封装2）；"赛道"=篮子等权（含池外二三线，存储10/光模块9/PCB12/先进封装9）；资金为东财主力净额（亿元）。⛔ 池内是各赛道"最有故事、最强"的头部，<b>用它合成的"方向"系统性偏强，不得外推为赛道走势</b>。⭐ <b>本期四个方向资金符号全部一致（全负），无撤回项</b>——与 10/09、11/02 那种"符号相反必须撤回"的情形不同。</td></tr>
+      </table></div>
+
+      <div class="panel panel-yellow">
+        <b>⭐ α 三负一正，与 11/02（三正一负）几乎完全镜像。</b><br>
+        · <b>判据再次生效：先问今天点名了谁。</b>Marvell 并购点名<b>光模块上游（DSP + EML）</b>、高盛下调点名<b>旭创本身</b>——两条都打在池内那一只上，所以光模块 α <b>−2.66%</b> 四方向最负、旭创 −12.69% 全池最深。<span class="crit">与 10/12（花旗点名旭创）完全同型，与 11/02（无点名、龙头仅弹性不足）相反。</span><br>
+        · <b>存储 α +0.76%（正且扩大）</b>：被点名的是海外原厂与国内模组/分销，池内三只是 DRAM 颗粒与内存接口，<b>不在那几层</b>——与 10/29 同型。赛道 −7.99% 比池内 −7.23% 更差，说明<b>池外模组/分销杀得更狠</b>。<br>
+        · <b>先进封装 α 由 +0.26% 翻转为 −0.97%</b>：芯碁 −9.09% 跑输赛道 −6.15%，盛合 −5.15% 反而抗跌。<span class="hl">⛔ 两者差异我讲不出催化剂口径——两条主催化都挂不到先进封装，按纪律标注"归因不完整"，不编。</span><br>
+        · <b>PCB α −0.92%（收窄）</b>：深南跌停拖累池内，但赛道 −8.64% 也深。PCB 无直接催化，属 AI 硬件链杀跌<b>外溢</b>。<br>
+        · ⛔ <b>α 为负 ≠ 赛道比池内好</b>：光模块 α −2.66% 只说明龙头被额外打击，CPO 板块 10 日 −581.66 仍是五板块最深。<b>两条并列读，不能互相抵消。</b>
+      </div>
+
+      <div class="table-wrap"><table class="table">
+        <tr><th>标的</th><th class="num">收盘</th><th class="num">涨跌</th><th class="num">主力</th><th class="num">超大</th><th class="num">大</th><th class="num">中</th><th class="num">小</th><th class="num">5日</th><th class="num">10日</th><th class="num">量比</th><th class="num">CLV</th><th>定性</th></tr>
+        <tr class="sector-hdr"><td colspan="13">存储（池内 3 只 · 赛道 −7.99% · 池内α +0.76% · 池外 7 只 −8.32%）</td></tr>
+        <tr><td>长鑫科技 688825</td><td class="num">38.80</td><td class="num down">−7.00%</td><td class="num down">−31.80</td><td class="num down">−21.38</td><td class="num down">−10.43</td><td class="num up">+9.43</td><td class="num up">+22.37</td><td class="num down">−48.31</td><td class="num down">−25.66</td><td class="num">1.28</td><td class="num">0.00</td><td>池内流出第一；CLV 0 收在最低</td></tr>
+        <tr><td>兆易创新 603986</td><td class="num">250.16</td><td class="num down">−5.84%</td><td class="num down">−9.57</td><td class="num down">−5.60</td><td class="num down">−3.97</td><td class="num up">+3.00</td><td class="num up">+6.57</td><td class="num up">+1.05</td><td class="num up">+10.82</td><td class="num">1.04</td><td class="num">0.10</td><td>10日仍为正，全池唯一</td></tr>
+        <tr><td>澜起科技 688008</td><td class="num">150.01</td><td class="num down">−8.85%</td><td class="num down">−6.28</td><td class="num down">−7.12</td><td class="num up">+0.84</td><td class="num up">+2.24</td><td class="num up">+4.04</td><td class="num down">−7.37</td><td class="num down">−8.99</td><td class="num">1.54</td><td class="num">0.10</td><td>破 45 日新低；详见 ⑥</td></tr>
+        <tr class="sector-sum"><td>存储合计（3）</td><td class="num">—</td><td class="num down">−7.23%</td><td class="num down">−47.65</td><td class="num down">−34.10</td><td class="num down">−13.56</td><td class="num up">+14.67</td><td class="num up">+32.98</td><td class="num down">−54.63</td><td class="num down">−23.83</td><td class="num">—</td><td class="num">—</td><td>板块 存储芯片 −124.96</td></tr>
+        <tr class="sector-hdr"><td colspan="13">光模块（池内 1 只 · 赛道 −10.03% · 池内α −2.66% · 池外 8 只 −9.70%）</td></tr>
+        <tr class="warn-row"><td>中际旭创 300308</td><td class="num">480.20</td><td class="num down">−12.69%</td><td class="num down">−27.76</td><td class="num down">−18.55</td><td class="num down">−9.21</td><td class="num up">+27.77</td><td class="num">−0.01</td><td class="num down">−3.57</td><td class="num down">−7.86</td><td class="num">1.77</td><td class="num">0.00</td><td>全池最深；双利空点名；收在最低</td></tr>
+        <tr class="sector-sum"><td>光模块合计（1）</td><td class="num">—</td><td class="num down">−12.69%</td><td class="num down">−27.76</td><td class="num down">−18.55</td><td class="num down">−9.21</td><td class="num up">+27.77</td><td class="num">−0.01</td><td class="num down">−3.57</td><td class="num down">−7.86</td><td class="num">—</td><td class="num">—</td><td>板块 CPO −157.76（最深）</td></tr>
+        <tr class="sector-hdr"><td colspan="13">PCB（池内 2 只 · 赛道 −8.64% · 池内α −0.92% · 池外 10 只 −8.46%）</td></tr>
+        <tr><td>胜宏科技 300476</td><td class="num">122.71</td><td class="num down">−9.12%</td><td class="num down">−10.15</td><td class="num down">−7.75</td><td class="num down">−2.41</td><td class="num up">+3.24</td><td class="num up">+6.92</td><td class="num down">−33.40</td><td class="num down">−33.92</td><td class="num">1.21</td><td class="num">0.08</td><td>10日 −33.92 全池最深</td></tr>
+        <tr class="warn-row"><td>深南电路 002916</td><td class="num">205.09</td><td class="num down">−10.00%</td><td class="num down">−3.69</td><td class="num down">−1.61</td><td class="num down">−2.08</td><td class="num down">−0.66</td><td class="num up">+4.35</td><td class="num down">−4.35</td><td class="num down">−12.48</td><td class="num">1.42</td><td class="num">0.00</td><td><b>池内唯一跌停</b>；CLV 0</td></tr>
+        <tr class="sector-sum"><td>PCB合计（2）</td><td class="num">—</td><td class="num down">−9.56%</td><td class="num down">−13.84</td><td class="num down">−9.36</td><td class="num down">−4.49</td><td class="num up">+2.58</td><td class="num up">+11.27</td><td class="num down">−37.75</td><td class="num down">−46.40</td><td class="num">—</td><td class="num">—</td><td>板块 印制电路板 −52.17</td></tr>
+        <tr class="sector-hdr"><td colspan="13">先进封装（池内 2 只 · 赛道 −6.15% · 池内α −0.97% · 池外 7 只 −5.87%）</td></tr>
+        <tr><td>盛合晶微 688820</td><td class="num">72.70</td><td class="num down">−5.15%</td><td class="num down">−0.55</td><td class="num">−0.08</td><td class="num down">−0.47</td><td class="num up">+0.12</td><td class="num up">+0.44</td><td class="num down">−3.51</td><td class="num down">−0.61</td><td class="num">0.92</td><td class="num">0.17</td><td>池内最抗跌；唯一缩量</td></tr>
+        <tr><td>芯碁微装 688630</td><td class="num">202.00</td><td class="num down">−9.09%</td><td class="num down">−0.78</td><td class="num down">−0.70</td><td class="num">−0.08</td><td class="num up">+0.75</td><td class="num">+0.03</td><td class="num down">−0.62</td><td class="num down">−5.50</td><td class="num">1.01</td><td class="num">0.13</td><td>跌幅接近旭创但资金流出极小</td></tr>
+        <tr class="sector-sum"><td>先进封装合计（2）</td><td class="num">—</td><td class="num down">−7.12%</td><td class="num down">−1.33</td><td class="num down">−0.78</td><td class="num down">−0.55</td><td class="num up">+0.87</td><td class="num up">+0.47</td><td class="num down">−4.13</td><td class="num down">−6.11</td><td class="num">—</td><td class="num">—</td><td>板块 先进封装 −64.61</td></tr>
+        <tr class="sector-sum"><td><b>8 只总计</b></td><td class="num">—</td><td class="num down"><b>−8.47%</b></td><td class="num down"><b>−90.58</b></td><td class="num down">−62.79</td><td class="num down">−27.81</td><td class="num up">+45.89</td><td class="num up">+44.71</td><td class="num down"><b>−100.08</b></td><td class="num down"><b>−84.20</b></td><td class="num">—</td><td class="num">—</td><td>主力+中+小 ≡ 0（核对通过）</td></tr>
+      </table></div>
+
+      <div class="panel panel-green">
+        <b>⭐ 卖压是"新增的"，不是窗口滚动 —— 这是今天与 11/02 最本质的区别。</b><br>
+        · 8 只当日主力 <b>−90.58 亿</b>（11/02 为 +4.61 亿，方向再反转）；中单+小单 <b>+90.60 亿</b>——<span class="hl">主力卖、散户接，是"同构"的第十三次</span>（三次镜像为 10/21 +19.61、10/28 +56.27、11/02 +4.61）。⛔ 恒等式主力+中+小≡0，有信息量的只是<b>散户端符号</b>。<br>
+        · <b>比例对照</b>：当日流出 90.58 ÷ 5 日缺口 100.08 = <b>90.5%</b>——一天流出几乎等于过去五天全部缺口。<span class="crit">是新增卖压，不是"跌不动"或"窗口滚动"。</span><br>
+        · <b>10 日 −84.20 vs 5 日 −100.08</b> → 倒推第 6–10 日<b>净流入 +15.88 亿</b>：<span class="hl">卖压全部集中在最近 5 个交易日，是全新的、正在加速的撤离。</span>与 10/29（79.7% 靠窗口滚动）相反、与 10/30 同型。<br>
+        · ⚠️ <b>判断真加仓看非龙头有没有跟</b>：今天四个方向池外全部下跌（存储 −8.32%、光模块 −9.70%、PCB −8.46%、先进封装 −5.87%），<b>是全赛道普跌</b>。光模块/PCB 池外比池内抗跌，只是因为池内龙头被单独点名。
+      </div>
+
+      <div class="panel panel-gray">
+        <b>方向内部分化（每条标明能不能讲出催化剂口径）</b><br>
+        · <b>存储</b>：兆易 −5.84%（10 日 <b>+10.82 全池唯一为正</b>、主力只 −9.57）vs 长鑫 −7.00%（主力 −31.80 池内第一、CLV 0.00、量比 1.28x）。<b>讲得出</b>：兆易是利基存储设计、澜起是内存接口，长鑫是 DRAM 颗粒盘子最大弹性最差；长鑫 5 日 −48.31 全池最深，从 10 月底就在被持续减仓，今天只是加速。<span class="hl">不是"好 vs 坏"，是"被点名的层 vs 没被点名的层"。</span><br>
+        · <b>光模块</b>：旭创 −12.69%、CLV <b>0.00</b>（收在全天最低 480.00，距跌停 440.00 有 8.3%）、量比 <b>1.77x 全池最大</b>、主力 −27.76（超大占 67%）。<b>讲得出</b>：两条利空都直接落在它身上；中单 +27.77 几乎全部承接主力抛压——<b>机构走、散户接，典型筹码转移日</b>。<br>
+        · <b>PCB</b>：深南 <b>跌停</b> −10.00%（池内唯一跌停）vs 胜宏 −9.12%（主力 −10.15、10 日 −33.92 全池最深）。<b>讲得出一半</b>：PCB 无直接催化属外溢；但深南跌停而胜宏没有，<span class="hl">差异讲不出催化口径 → 标注"归因不完整"</span>。媒体口径下 PCB 链（景旺/生益/华正/兴森）今日集体跌停，是板块级事件。<br>
+        · <b>先进封装</b>：盛合 −5.15%（主力仅 −0.55、量比 <b>0.92x 全池唯一缩量</b>、10 日 −0.61 最接近回正）vs 芯碁 −9.09%（主力 −0.78）。<b>⛔ 讲不出差异催化</b>——今天主催化都挂不到先进封装，两只都是跟跌 β，按纪律<b>标注"归因不完整"，不编</b>。<br>
+        · ⚠️ <b>全池形态高度一致</b>：8 只里 <b>5 只 CLV ≤ 0.10</b>（长鑫 0.00、旭创 0.00、深南 0.00、胜宏 0.08、兆易 0.10、澜起 0.10），<b>7 只量比 ≥ 1.00</b>。<span class="crit">放量 + 收在全天最低 = 卖压到收盘都没有释放完，这是明天最直接的负面信号。</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ④ 跨市场 -->
+  <div class="section" id="s4">
+    <div><span class="section-num teal">4</span><span class="section-title">跨市场 · A/H 溢价 + 互联网平台（恒科子集）</span></div>
+    <div class="section-body">
+
+      <div class="table-wrap"><table class="table">
+        <tr><th>标的</th><th class="num">A股价</th><th class="num">A涨跌</th><th class="num">H股价</th><th class="num">H涨跌</th><th class="num">溢价</th><th class="num">前值</th><th class="num">|溢价|变化</th></tr>
+        <tr><td>中际旭创</td><td class="num">480.20</td><td class="num down">−12.69%</td><td class="num">620.00</td><td class="num down">−10.92%</td><td class="num">−8.96%</td><td class="num">−7.11%</td><td class="num">走阔 1.85pct</td></tr>
+        <tr><td>澜起科技</td><td class="num">150.01</td><td class="num down">−8.85%</td><td class="num">198.30</td><td class="num down">−6.55%</td><td class="num">−11.08%</td><td class="num">−8.83%</td><td class="num">走阔 2.25pct</td></tr>
+        <tr><td>兆易创新</td><td class="num">250.16</td><td class="num down">−5.84%</td><td class="num">313.00</td><td class="num down">−4.46%</td><td class="num">−6.05%</td><td class="num">−4.68%</td><td class="num">走阔 1.38pct</td></tr>
+        <tr><td>胜宏科技</td><td class="num">122.71</td><td class="num down">−9.12%</td><td class="num">117.00</td><td class="num down">−5.19%</td><td class="num">+23.28%</td><td class="num">+28.61%</td><td class="num">收窄 5.33pct</td></tr>
+        <tr><td>芯碁微装</td><td class="num">202.00</td><td class="num down">−9.09%</td><td class="num">161.50</td><td class="num down">−7.98%</td><td class="num">+47.02%</td><td class="num">+48.82%</td><td class="num">收窄 1.79pct</td></tr>
+        <tr><td>三环集团</td><td class="num">68.92</td><td class="num down">−9.05%</td><td class="num">66.00</td><td class="num down">−8.59%</td><td class="num">+22.74%</td><td class="num">+23.37%</td><td class="num">收窄 0.63pct</td></tr>
+        <tr><td>立讯精密</td><td class="num">45.45</td><td class="num up">+0.40%</td><td class="num">46.50</td><td class="num up">+2.56%</td><td class="num">+14.89%</td><td class="num">+17.36%</td><td class="num">收窄 2.47pct</td></tr>
+        <tr><td>鼎泰高科</td><td class="num">181.55</td><td class="num down">−8.31%</td><td class="num">143.00</td><td class="num down">−6.04%</td><td class="num">+49.23%</td><td class="num">+52.92%</td><td class="num">收窄 3.68pct</td></tr>
+        <tr><td colspan="8" style="white-space:normal;color:#666">汇率 HKD/CNY = <b>0.8507</b>（新浪实时）。⚠️ 一律用 <b>|溢价|</b> 判走阔/收窄 —— 旭创/澜起/兆易是 <b>A 股折价</b>（负号），符号直觉相反。今日 <b>3 走阔 / 5 收窄</b>。<br>⭐ <b>本期最关键的一条：8 只里 8 只都是 A 跌幅 &gt; H 跌幅</b>（立讯：A +0.40% &lt; H +2.56%，同样是 A 更弱）。折价组走阔（A 折得更深）、溢价组收窄（A 跌掉了溢价）——<span class="crit">两个相反的方向指向同一件事：今天 A 端的恐慌程度系统性高于 H 端。</span><br>⚠️ 走阔 ≠ 外资看好 A 股；收窄 ≠ 外资撤离。今天两者都是"A 股自己砸得更狠"的结果。</td></tr>
+      </table></div>
+
+      <div class="panel panel-green">
+        <b>互联网平台（恒科子集）：今天与 A 股算力链完全反向。</b><br>
+        · <b>腾讯 00700</b>：397.20 <span class="up">+1.28%</span>（开 393.20 / 高 402.60 / 低 391.80），α vs 恒科 <b>+0.54pct</b>，CLV <b>0.50</b>（收在全天中位），成交 80.09 亿港元。<br>
+        · <b>美团 03690</b>：74.35 <span class="up">+1.78%</span>（开 73.35 / 高 74.95 / 低 73.10），α vs 恒科 <b>+1.04pct</b>，CLV <b>0.68</b>（收在偏高），成交 17.76 亿港元。<br>
+        · 池内等权 <b>+1.53%</b> vs 恒生科技 3,867.73 <span class="up">+0.74%</span> → <b>池内α +0.79pct</b>（vs 恒科 20 只等权篮子 +0.22% → α +1.31pct）；恒生指数 23,525.97 <span class="up">+0.57%</span>。<br>
+        · ⭐ <b>与 11/02 的形态正好相反，但结论同型</b>：11/02 是恒科 +2.03% 而恒指 +0.28%（科技领涨）；今天恒科 +0.74% vs 恒指 +0.57%（差距很小）。<span class="hl">关键是等权篮子只有 +0.22%，而指数 +0.74% —— 说明恒科是"少数权重涨、多数成分跌"，内部极度分化。</span><br>
+        ⛔ <b>不得写"恒科由腾讯美团撑起"</b>：恒科是市值加权，还含中芯国际、华虹、舜宇、比亚迪电子、联想、ASMPT 与蔚小理，<b>池内一只未覆盖</b>；我没有各成分权重数据，<b>不做权重贡献推算</b>。可说的只有事实：池内两只上涨、α +0.79pct，等权口径下多数恒科成分下跌。
+      </div>
+
+      <div class="panel panel-blue">
+        <b>与 19:00 南向报告的衔接 —— 今晚该重点看什么：</b>① 8 只 A/H 标的今天<b>全部是 H 股更抗跌</b>，看南向是否在逆势买入这些 H 股（今晚数据）；② 港股今天整体收红而 A 股杀跌，若南向今天是净买入，则"A 端自己砸"的结论得到强化；若净卖出，则说明两地卖压只是时差。③ ⚠️ 南北同向/背离是<b>逐日状态</b>，不得升格为长期规律；南向净买入与当日涨跌<b>几乎不相关</b>（已在多期验证）。
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑤ 昨日判断校验 -->
+  <div class="section" id="s5">
+    <div><span class="section-num green">5</span><span class="section-title">⭐ 昨日判断校验（对 11/02 报告，逐条 ✅/❌/⏳）</span></div>
+    <div class="section-body">
+
+      <div class="check-item ok">
+        <div class="check-head">✅ #1 科创50 1196.94 —— 我设的 🔴 反向条件<b>双触发</b></div>
+        我设的 🟢 是"收盘站回 <b>1220.52</b> <b>且</b> 主力为正"；🔴 是"跌破 <b>1185.51</b> <b>或</b> 主力转负"。<b>实际：收 1151.28，跌破 1185.51 ✅；主力 −45.49 亿转负 ✅</b>——两个反向条件<b>全部触发</b>，且跌幅超出预判（1151.28 也跌破了我写的下一个支撑 1160.84）。<br>
+        <b>判定：命中。</b><span class="hl">这是本栏目设立以来第一次三条全部按反向确认命中。</span>
+      </div>
+
+      <div class="check-item ok">
+        <div class="check-head">✅ #2 光模块 / 旭创 550.00 —— 🔴 反向条件<b>双触发</b>，且触发方式正是我漏想的那条</div>
+        我设的 🟢 是"站回 <b>576.88</b> <b>且</b> CPO 10 日缺口收窄"；🔴 是"跌破 <b>542.51</b> <b>或</b> CPO 10 日继续走阔"。<b>实际：旭创收 480.20 跌破 542.51 ✅；CPO 10 日 −433.20 → −581.66 走阔 148.46 ✅</b>。<br>
+        <b>判定：命中，但触发方式是"点名式利空"而非我预判的"资金不信任"</b>——我 11/02 写的是"反弹日掉队、资金不信任"，实际触发是<b>Marvell 并购 + 高盛下调</b>两条当日新增利空。<span class="hl">方向对、原因错——按纪律写明：预判对了结果，没预判到催化剂。</span>
+      </div>
+
+      <div class="check-item ok">
+        <div class="check-head">✅ #3 澜起 164.58 —— 🔴 反向条件<b>双触发</b>，157.45 锚点失守</div>
+        我设的 🟢 是"站回 <b>169.07</b> <b>且</b> 超大单转正"；🔴 是"跌破 <b>159.33</b> <b>或</b> 主力继续为负"。<b>实际：收 150.01 跌破 159.33 ✅；主力 −6.28 继续为负 ✅</b>。<br>
+        <b>判定：命中，且比条件更坏</b>——150.01 同时跌穿了 11/02 我标注的"45 日内最低锚点" <b>157.45</b> 与 10/30 的 158.30。<span class="crit">11/02 我写"157.45 这个锚今天守住了"，今天直接失守——一句话一天被推翻。</span>详见 ⑥。
+      </div>
+
+      <div class="check-item ok">
+        <div class="check-head">✅ 主判断：「时差收敛 + 国内变量接管的一次反弹，<b>不是趋势反转</b>」——方向判对</div>
+        11/02 科创50 +3.11%，今天 −3.81% 一次性全部回吐还多跌。<span class="hl">"止血反弹不是趋势反转"这个核心句第一次被完整验证。</span>四赛道 10 日缺口全部走阔（见 ②）是最硬的证据。
+      </div>
+
+      <div class="check-item no">
+        <div class="check-head">❌ 但主判断的另一半被证伪：我 11/02 写"我不压方向"，留了"反弹可延续 2–3 个交易日"的对称情景</div>
+        <b>实际：反弹只持续了一个交易日。</b><br>
+        <b>修正</b>：<span class="crit">问题不在"压不压"，在于我用对称情景稀释了已经明确的主判断。</span>核心句已写"不是趋势反转"，却又补一句"反弹可延续 2–3 日"——两句矛盾，我把矛盾留给了读者。<br>
+        <b>⭐ 本期最重要的方法论收获</b>：我 11/02 设的三条双向条件<b>宽严不对称</b>——🟢 侧都是"站回 X <b>且</b> 主力为正"（两个严格条件同时满足），🔴 侧都是"跌破 Y <b>或</b> 主力转负"（任一宽松条件即可）。<span class="hl">两侧宽严不等时，概率倾向其实已隐含在条件里，我却当成 50:50 写。今后必须先自问：两侧触发难度一样吗？不一样就把倾向写进主判断，别藏在条件里。</span>
+      </div>
+
+      <div class="check-item no">
+        <div class="check-head">❌ 子判断：「钱从防御切回成长」——今天完全反转</div>
+        11/02 我写"钱从防御（红利 −0.43%）切回成长（科创50 +3.11%）"。今天上证50 +0.21% 全场唯一红盘、保险Ⅲ +2.66%、白酒Ⅱ +1.43%、养殖业 +2.70%，成长端全线杀跌 —— <b>两天完成一次"防御→成长→防御"的来回，等于什么都没发生</b>。<br>
+        <b>修正</b>：<span class="crit">11/02 的"风格切换"是伪命题，真实情况是资金在 1.7 万亿的存量里做日内轮动，没有形成任何方向性切换。</span>⛔ 今后"风格切换"必须满足连续 2–3 日同向 + 板块 5 日资金同向，单日不算。
+      </div>
+
+      <div class="check-item wait">
+        <div class="check-head">⏳ 个股池三档：暂避档判对，强势优先档无优势</div>
+        11/02 我把 7 只分成三档，今日实际表现：<b>暂避档</b>（旭创 −12.69%、胜宏 −9.12%、长鑫 −7.00%）均值 <b>−9.60%</b>，确实是三档里最差的 ✅；<b>强势优先档</b>（兆易 −5.84%、芯碁 −9.09%）均值 −7.47%；<b>观察反弹档</b>（澜起 −8.85%、盛合 −5.15%）均值 −7.00%。<br>
+        <b>判定</b>：<span class="hl">暂避档的区分力成立（−9.60% vs −7.00%），但"强势优先"与"观察反弹"没有区分力（−7.47% vs −7.00%，差距 0.47pct 在噪音内）。</span>⛔ 结论：在大跌日，档位只有"该不该避开"这一档有用，"优先买哪只"这一档无效。
+      </div>
+
+      <div class="panel panel-yellow">
+        <b>❗❗ 压档纪律的自我修正（连续第四期复盘）</b><br>
+        · 10/28 压悲观 → 当天反弹打脸；10/30 压悲观（"下跌中继是基准情景"）→ 11/02 反弹打脸；11/02 不压方向 → 11/03 下跌打脸。<span class="crit">连续三种压档方式，没有一次提高过方向命中率。</span><br>
+        · <b>结论</b>：压档纪律的作用是<b>控制表述风险</b>，不是提高准确率。本期起不再做"压/不压"的机械动作，改为 <b>① 明确写出概率倾向；② 承认区分力弱；③ 双向条件宽严对称</b>。<br>
+        · <b>本期新增两条</b>：① <b>大跌日不设"强势优先"档</b>——三档回测显示该档与"观察"档无区分力，设了是噪音；② <b>催化剂可以完全在预判之外</b>——11/02 我对旭创的预判是"资金不信任"，实际触发是当天新增的并购 + 下调评级。<span class="hl">价格判断对、催化剂判断错，应记为"部分命中"而非完全命中。</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑥ 澜起专项 -->
+  <div class="section" id="s6">
+    <div><span class="section-num slate">6</span><span class="section-title">澜起科技 688008 专项</span></div>
+    <div class="section-body">
+
+      <div class="table-wrap"><table class="table">
+        <tr><th>项目</th><th class="num">10-29</th><th class="num">10-30</th><th class="num">11-02</th><th class="num">11-03（今）</th></tr>
+        <tr><td>A 股收盘（元）</td><td class="num">166.79</td><td class="num">158.30</td><td class="num">164.58</td><td class="num down"><b>150.01</b></td></tr>
+        <tr><td>涨跌幅</td><td class="num down">−4.53%</td><td class="num down">−5.09%</td><td class="num up">+3.97%</td><td class="num down"><b>−8.85%</b></td></tr>
+        <tr><td>主力净额（亿）</td><td class="num down">−3.60</td><td class="num down">−2.50</td><td class="num down">−0.28</td><td class="num down"><b>−6.28</b></td></tr>
+        <tr><td>超大单（亿）</td><td class="num down">−3.51</td><td class="num down">−2.24</td><td class="num down">−0.29</td><td class="num down"><b>−7.12</b></td></tr>
+        <tr><td>10 日主力（亿）</td><td class="num up">+5.22</td><td class="num down">−1.59</td><td class="num down">−1.57</td><td class="num down"><b>−8.99</b></td></tr>
+        <tr><td>H 股 06809（港元）</td><td class="num">214.80</td><td class="num">209.00</td><td class="num">212.40</td><td class="num down">198.30</td></tr>
+        <tr><td>H 股涨跌</td><td class="num down">−6.69%</td><td class="num down">−2.79%</td><td class="num up">+2.31%</td><td class="num down"><b>−6.55%</b></td></tr>
+        <tr><td>A/H 溢价</td><td class="num">−8.57%</td><td class="num">−10.73%</td><td class="num">−8.00%</td><td class="num"><b>−11.08%</b>（走阔 2.25pct）</td></tr>
+        <tr><td>形态</td><td class="num" colspan="4" style="text-align:left">开 162.00 / 高 162.00 / 低 148.61 / 收 150.01 · CLV <b>0.10</b>（收在全天最低附近）· 量比 <b>1.54x</b> · 成交 72.32 亿</td></tr>
+      </table></div>
+
+      <ul>
+        <li><b>价格：150.01 是 45 日新低，两道锚今天同时失守。</b>11/02 我写"157.45 这个锚今天守住了"，今天最低 148.61、收 150.01 —— <span class="crit">157.45 与 158.30 两道锚一天内全部跌穿，下方进入无历史参考区</span>，再下只有 150 整数关（今日已破）与 145。自 9/22 高点 232.99 起算 −35.6%；比业绩预告前一日（10/20 收 169.07）低 <b>11.27%</b>。</li>
+        <li><b>资金：主力 −6.28 亿，超大单 −7.12 亿是四期最大单日流出</b>（大单 +0.84 逆势接）。中单 +2.24 / 小单 +4.04 散户在接。<b>10 日由 −1.57 走阔到 −8.99</b>（恶化 7.42 亿），四期最差。<span class="crit">11/02 我说"价格反弹、资金未跟"是警告——今天兑现：价格回吐 + 资金同步恶化。</span></li>
+        <li><b>⭐ 量比 1.54x 是 8 只里第二大（仅次于旭创 1.77x），成交 72.32 亿</b>——这是<b>放量破位</b>不是缩量阴跌。放量 + 收在全天低位 + 破前低，三条件同时成立。</li>
+        <li><b>A/H：A −8.85% vs H −6.55%，A 股折价由 −8.00% 走阔至 −11.08%</b>。<span class="hl">与 11/02（A 更强、折价收窄 1.98pct）<b>方向相反</b>——四期里第三次反转，只能记为情绪不能记为趋势。</span>但今天全市场 8 只 A/H 全部 A 更弱，所以这次走阔是<b>系统性现象的一部分，不是澜起个股现象</b>。</li>
+        <li><b>催化：⛔ 今日无澜起自身的公告/业绩/回应，是跟跌存储 β</b>。存储芯片板块 −4.86%、主力 −124.96 亿，外围点名美光/希捷/西数/闪迪与 SK 海力士；澜起做内存接口（DDR5 RCD / PCIe Retimer / CXL-MXC），挂得上存储链但<b>没有自己的增量信息</b>。<span class="hl">是"板块跌了它跟着跌"，不是"有人专门卖它"。</span></li>
+        <li>⚠️ <b>超大单方向</b>：今日 −7.12（连续第 2 日为负，金额四期最大）。"超大单首日转正"此前已被证伪 6 次以上（9/29、10/8、10/12、10/16、10/21、10/28），<b>按纪律一次不算</b>。今天连转正都没有，<b>无新信号产生</b>——只记"价位 + 超大单方向"两个事实，不用资金指标下注价格。</li>
+      </ul>
+
+      <div class="panel panel-gray">
+        <b>价位锚</b>：下方 <b>148.61</b>（今日最低）/ 150（整数关，今日已破）/ 145；<span class="crit">157.45 与 158.30 两道历史锚今日全部失守，跌破后无可参考锚点。</span>上方 <b>162.00</b>（今日开盘＝最高）/ <b>164.58</b>（11/02 收盘，回补此位才算收复今日下跌）/ 169.07（业绩预告前收盘，更远）。<br>
+        <b>脆弱点</b>：① 10 日缺口 −8.99 走阔 7.42 亿，是四期最差；② 超大单 −7.12 四期最大；③ <b>放量破位</b>（量比 1.54x）而非缩量阴跌，说明有主动卖盘；④ 完全依赖存储 β，没有个股催化支撑。<br>
+        <b>右侧信号（需同时满足才考虑）</b>：① 收盘站回 <b>164.58</b> 上方（收复今日全部跌幅）；② 超大单<b>连续第 2 日</b>为正；③ 10 日缺口开始收窄（今天 −8.99 是走阔，明确不满足）。
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ⑦ 前瞻与结论 -->
+  <div class="section" id="s7">
+    <div><span class="section-num">7</span><span class="section-title">前瞻与结论 · 明日必看 3 条 + 个股池 + 我的判断</span></div>
+    <div class="section-body">
+
+      <div class="panel panel-blue">
+        <b>明日必看 3 条（每条 = 关键价位 + 🟢正向确认 + 🔴反向确认；本期两侧宽严已刻意调成对称）</b><br><br>
+        <b>1. 科创50 1151.28 —— 1132.33（今日最低）是不是有效底</b><br>
+        价位：收 1151.28、今日最低 <b>1132.33</b>、今日开盘＝最高 <b>1184.53</b>；下方 1100（整数关）。<br>
+        🟢 收盘站回 <b>1184.53</b> 上方 <b>且</b> 主力净额转正 → 今天是恐慌底，超跌反弹开始。<br>
+        🔴 收盘跌破 <b>1132.33</b> <b>且</b> 主力继续净流出超 40 亿 → 下跌延续，下测 1100。<br><br>
+        <b>2. 光模块 / 旭创 480.20 —— Marvell–Lumentum 冲击是一次性情绪还是结构性重估</b><br>
+        价位：收 480.20（今日最低 480.00，与跌停价 440.00 相差 8.3%）；上方 <b>539.00</b>（今日开盘）/ 550.00（11/02 收盘）。<br>
+        🟢 收盘站回 <b>539.00</b> 上方 <b>且</b> CPO 10 日缺口收窄 → 供应链担忧被证伪，属超跌反弹。<br>
+        🔴 收盘跌破 <b>480.00</b> <b>且</b> CPO 10 日继续走阔 → 是结构性重估，不是情绪，下跌未完。<br><br>
+        <b>3. A/H 折价 —— H 股能不能止跌（今天 8/8 都是 A 更弱）</b><br>
+        价位/口径：旭创 A 480.20 / H 620.00（溢价 −8.96%）；澜起 A 150.01 / H 198.30（−11.08%）。今日 8 只 A/H 全部 A 跌幅 &gt; H 跌幅。<br>
+        🟢 多数 H 股收红 <b>且</b> 至少 5 只 |溢价| 收窄 → A 端超跌，外资定价企稳。<br>
+        🔴 H 股继续下跌 <b>且</b> 至少 5 只 |溢价| 走阔 → 是 AI 资产的全球重估，A 端没有独立支撑，跌幅还没走完。
+      </div>
+
+      <div class="table-wrap"><table class="table">
+        <tr><th>档位</th><th>标的</th><th>一句话理由</th></tr>
+        <tr><td>强势优先</td><td colspan="2" style="white-space:normal;color:#888">⛔ <b>今日不设此档。</b>⑤ 的回测显示：大跌日"强势优先"与"观察"两档的当日收益差只有 0.47pct，在噪音内 —— 设了就是噪音。全池 8 只全部下跌、5 只 CLV ≤ 0.10、7 只量比 ≥ 1.00，没有任何一只具备"优先"的资格。</td></tr>
+        <tr><td>观察反弹</td><td>先进封装 · 盛合晶微 688820</td><td style="white-space:normal">−5.15% 池内最抗跌，主力仅 −0.55，量比 <b>0.92x 全池唯一缩量</b>，10 日 −0.61 最接近回正。⚠️ 讲不出与芯碁的催化差异，只作观察。</td></tr>
+        <tr><td>观察反弹</td><td>存储 · 兆易创新 603986</td><td style="white-space:normal">−5.84%，<b>10 日 +10.82 全池唯一为正</b>，主力 −9.57 远小于长鑫/旭创。⚠️ 但 11/02 我放它"强势优先"，今天照样跌 5.84%——资金指标判不了次日价格。</td></tr>
+        <tr><td>暂避</td><td>光模块 · 中际旭创 300308</td><td style="white-space:normal">−12.69% 全池最深，主力 −27.76（超大占 67%），CLV <b>0.00</b>、量比 <b>1.77x</b> 全池最大。<b>两条利空都点名它</b>，抛压由中单 +27.77 全部接走——筹码从机构转散户，不是一天能完成。</td></tr>
+        <tr><td>暂避</td><td>PCB · 深南电路 002916</td><td style="white-space:normal"><b>跌停 −10.00%，池内唯一跌停</b>，CLV 0.00、量比 1.42x。PCB 无直接催化属外溢；媒体口径下 PCB 链（景旺/生益/华正/兴森）今日集体跌停，是板块级事件。</td></tr>
+        <tr><td>暂避</td><td>PCB · 胜宏科技 300476</td><td style="white-space:normal">−9.12%，主力 −10.15（超大 −7.75），<b>5 日 −33.40 / 10 日 −33.92 全池最深</b>。10/30 放量杀跌以来机构最紧抱团标的减仓未结束。</td></tr>
+        <tr><td>暂避</td><td>存储 · 长鑫科技 688825</td><td style="white-space:normal">−7.00%，主力 −31.80 <b>池内流出第一</b>（超大 −21.38），CLV 0.00、量比 1.28x。5 日 −48.31 全池最深——10 月底起就被持续减仓，今天只是加速。</td></tr>
+        <tr><td>暂避</td><td>存储 · 澜起科技 688008</td><td style="white-space:normal">−8.85%，主力 −6.28（超大 −7.12 四期最大），10 日 −1.57 → <b>−8.99</b> 走阔。放量破位，157.45 / 158.30 两道锚全失守，下方无参考。详见 ⑥。</td></tr>
+        <tr><td>暂避</td><td>先进封装 · 芯碁微装 688630</td><td style="white-space:normal">−9.09%，跌幅接近旭创但<b>资金流出仅 −0.78</b>——是"没人接"不是"有人砸"，大跌日同样危险。⛔ 与盛合的差异讲不出催化。</td></tr>
+      </table></div>
+
+      <div class="panel panel-red">
+        <b>🎯 我的判断</b><br>
+        <b>核心句</b>：今天是 <b>11/02 逆势涨幅的一次性回吐 + 外围点名式利空（Marvell 并购 Lumentum、高盛下调旭创）的叠加</b>；不是新一轮下跌的起点，也不是 11/02 反弹的延续 —— 而是一个已经持续 5 个交易日的<b>加速撤离过程</b>中的又一天。硬证据是资金：五个板块的 10 日主力缺口<b>全部比昨天更深</b>。<br><br>
+        <b>三条依据</b><br>
+        ① <b>点名式利空回归，α 三负一正（与 11/02 完全镜像）</b>：Marvell 并购点名光模块上游、高盛下调点名旭创本身 → 旭创 −12.69% 全池最深、光模块 α −2.66% 最负。<span class="hl">判据第三次生效：先问今天点名了谁。</span>存储 α 反而为正（+0.76%），因为被点名的是海外原厂与国内模组/分销，池内三只不在这几层。<br>
+        ② <b>但主因不是 A 股自己的变量，是外围</b>：科创50 −3.81% ÷ 费半 −3.37% = <b>1.13 倍</b>，β 解释力很高（对比 11/02 方向相反、幅度差近 10 倍）。三种背离模板都不适用——前提（方向相反）不成立。定性是<b>同向跟随 + 昨日涨幅回吐 + 点名式利空的结构性放大</b>。<br>
+        ③ <b>资金给的是否定答案</b>：存储 10 日 −251.09→−345.25、CPO −433.20→−581.66、先进封装 −190.81→−251.73、PCB −178.04→−234.92、半导体 −198.47→−310.62，<b>五个全部走阔</b>；8 只当日流出 90.58 亿 = 5 日缺口的 90.5%，卖压集中在最近 5 日（第 6–10 日反而净流入 +15.88）。<span class="crit">这是新增的、正在加速的撤离，不是窗口滚动，也不是"跌不动"。</span><br><br>
+        <b>⚠️ 概率倾向（不再做机械压档，但必须给倾向）</b><br>
+        我的倾向：<b>明天继续下跌略大于反弹，约 55 : 45 —— 区分力很弱，请按 50:50 使用。</b><br>
+        偏跌：① 8 只里 <b>5 只 CLV ≤ 0.10</b>、<b>7 只量比 ≥ 1.00</b>，放量收在全天最低，卖压到收盘没释放完；② 五板块 10 日缺口全部走阔，是新增卖压非窗口滚动；③ 融资余额 11-02 再降 126.37 亿至 23026.56 亿（10-30 已单日 −414.30 亿），杠杆出清未结束。<br>
+        偏涨：① 恒指 +0.57%、恒科 +0.74% 逆势收红，<b>中国资产没被系统性抛售</b>，砸的只是 AI 硬件；② 央行第三轮互换便利（申请超 1000 亿）+ 回购再贷款利率降至 1%，午后 4 只宽基 ETF 同日破百亿（2024 年 924 以来首次），<b>护盘资金在场</b>；③ 上涨个股仍有 2067 只（39%）、涨停 48 家，不是全面溃散。<br>
+        <span class="hl">两情景并列、各给触发条件 —— 见上方"明日必看 3 条"，本期两侧宽严已调成对称。</span><br><br>
+        <b>⚠️ 两个不确定</b><br>
+        <b>一、Marvell 收购 Lumentum 是"情绪冲击"还是"光模块供应链的永久性重估"？判断不了。</b>市场担忧 DSP + EML 集中后国内模组厂议价收紧，这个担忧是<b>结构性</b>的，不是一天能定价完的。但⛔ 交易尚未完成、Lumentum −18.59% 里也含"增发摊薄 + 远期兑现"定价，<b>按纪律未落地的事不得当事实用</b>。观察点：国内模组厂是否公开回应供应链影响；审批进展；CPO 10 日缺口能否在 2–3 日内停止走阔。<br>
+        <b>二、A 端比 H 端多跌的这部分，是"内地杠杆出清"还是"时差"？没有数据区分。</b>今天 8/8 都是 A 跌幅 &gt; H 跌幅，H 股同样在跌（旭创 H −10.92%）只是跌得少。可能解释有"内地强平 vs 外资长线持有"，也可能只是港股对中期选举的反应时点不同。<span class="crit">⛔ 逐日状态，不得升格为长期规律。</span>观察点：今晚南向数据、明日 H 股是否补跌。
+      </div>
+
+      <div class="panel panel-gray">
+        <b>⛔ 读法提醒</b>：① 资金指标只判方向，判不了幅度、时点、往哪切——今天 8 只 −90.58 亿相当于 5 日缺口的 90.5%，但明天跌多少它说不了；② 多日累计净流入<b>不是安全垫，是获利盘的计量器</b>；③ 判断真加仓看非龙头有没有跟——今天四个方向池外全部下跌，<b>是全赛道普跌</b>；④ 判断见底看 10 日累计能否收窄——今天五板块<b>全部走阔，明确否定</b>；⑤ 本版均为东财口径，<b>与 NeoData 不可相减</b>；PCB 的 BK1340 历史与篮子差 2.5 倍，今天无篮子数据，标注不确定；⑥ ⛔ 恒科是市值加权，池内只是"互联网平台子集"，不做权重贡献推算；⑦ 外围传导今天<b>恢复有效</b>（同向跟随），11/02 的"失效"是时差不是规律；⑧ 今天"风格切换"是伪命题——两天内来回一次，⛔ 单日不算数。
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    数据源：东方财富 push2delay ulist.np（个股五档 f62/f66/f72/f78/f84、板块 BK 资金与 5/10 日 f164/f174、指数涨跌家数 f104/f105）· 东财涨停池 · 东财融资融券历史 RPTA_RZRQ_LSHJ · 新浪 hq.sinajs.cn（指数/外围/港股/汇率）· 腾讯 qt.gtimg.cn（A 股快照 OHLC/量比）· 本地 ah_premium.py / hk_attribution.py / sector_benchmark.py / flow_trend.py / watchlist.py。<br>
+    生成时间 2026-11-03 16:45 Asia/Shanghai · 港股为 16:08 收盘口径 · 美股为美东 11/02 收盘口径 · 涨跌家数为东财指数口径、非区间估算 · 融资余额为 11-02 披露口径（T+1）· 跌停池接口返空已留白。⛔ 本报告为合并版（数据层 + 归因层），是当日唯一正式版。
+  </div>
+
+</div>
+<script>
+var sectorData = [{"name":"存储芯片","d1":-124.96,"d5":-191.57,"d10":-345.25},{"name":"CPO概念","d1":-157.76,"d5":-331.46,"d10":-581.66},{"name":"印制电路板","d1":-52.17,"d5":-86.27,"d10":-234.92},{"name":"先进封装","d1":-64.61,"d5":-140.87,"d10":-251.73}];
+var stockData = [{"name":"长鑫","d1":-31.8,"d5":-48.31,"d10":-25.66},{"name":"兆易","d1":-9.57,"d5":1.05,"d10":10.82},{"name":"澜起","d1":-6.28,"d5":-7.37,"d10":-8.99},{"name":"旭创","d1":-27.76,"d5":-3.57,"d10":-7.86},{"name":"胜宏","d1":-10.15,"d5":-33.4,"d10":-33.92},{"name":"深南","d1":-3.69,"d5":-4.35,"d10":-12.48},{"name":"盛合","d1":-0.55,"d5":-3.51,"d10":-0.61},{"name":"芯碁","d1":-0.78,"d5":-0.62,"d10":-5.5}];
+var UP='#cf1322', DOWN='#389e0d';
+function ec(id){var el=document.getElementById(id); if(!el) return null; return echarts.init(el);}
+(function(){var c=ec('chartSector'); if(!c) return;
+  var d=sectorData.slice().sort(function(a,b){return a.d1-b.d1;});
+  c.setOption({tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){var o=d.filter(function(x){return x.name===p[0].name;})[0];return o.name+'<br/>当日 '+o.d1.toFixed(2)+' 亿<br/>近5日 '+o.d5.toFixed(2)+' 亿<br/>近10日 '+o.d10.toFixed(2)+' 亿';}},
+    grid:{left:78,right:40,top:24,bottom:26},xAxis:{type:'value',axisLabel:{formatter:'{value}亿'}},
+    yAxis:{type:'category',data:d.map(function(x){return x.name;}),axisLabel:{fontSize:11}},
+    series:[{name:'当日',type:'bar',data:d.map(function(x){return {value:x.d1,itemStyle:{color:x.d1>=0?UP:DOWN}};})},
+            {name:'近10日',type:'bar',data:d.map(function(x){return {value:x.d10,itemStyle:{color:x.d10>=0?'#f5a3a3':'#a8d5a2'}};})}],
+    legend:{data:['当日','近10日'],top:0}});
+})();
+(function(){var c=ec('chartStock'); if(!c) return;
+  var n=stockData.map(function(x){return x.name;});
+  c.setOption({tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},grid:{left:52,right:20,top:34,bottom:52},
+    legend:{data:['当日','近5日','近10日'],top:0},xAxis:{type:'category',data:n,axisLabel:{fontSize:11,interval:0}},
+    yAxis:{type:'value',axisLabel:{formatter:'{value}亿'}},
+    series:[{name:'当日',type:'bar',data:stockData.map(function(x){return {value:x.d1,itemStyle:{color:x.d1>=0?UP:DOWN}};})},
+            {name:'近5日',type:'bar',data:stockData.map(function(x){return {value:x.d5,itemStyle:{color:x.d5>=0?'#f5a3a3':'#a8d5a2'}};})},
+            {name:'近10日',type:'bar',data:stockData.map(function(x){return {value:x.d10,itemStyle:{color:x.d10>=0?'#f9c9c9':'#c6e6c3'}};})}]});
+})();
+</script>
+</body>
+</html>
