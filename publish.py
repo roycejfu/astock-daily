@@ -21,12 +21,13 @@ A股每日收盘复盘 · GitHub Pages 发布脚本
   3. commit 并 push 到 gh-pages 分支
 """
 import argparse
+import html as html_lib
 import os
 import re
 import shutil
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_SUBDIR = "archive"
@@ -149,11 +150,142 @@ def build_list_html(entries, meta):
     return "\n".join(lines)
 
 
-def update_merged_entry(date_str, title):
-    """subdir=merged 时：只更新首页「合并版」入口的日期/摘要/链接，不动历史列表。
+def extract_merged_title(path):
+    """从 merged/<date>.html 的 <title> 提取一句话摘要。
 
-    历史列表（archive/）由归档版单独维护 —— 合并版是唯一正式日报后，
-    archive 仍保留历史归档，两者互不干扰。
+    标题形如 "A股日报 2026-10-09 · 深V收复 资金未跟"，取 · 之后的部分。
+    文件未写完（缺 </html>）时返回 None，避免把生成中的半成品纳入列表。
+    """
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            s = f.read()
+        if "</html>" not in s:
+            return None
+        m = re.search(r"<title>(.*?)</title>", s, re.S | re.I)
+        if not m:
+            return None
+        t = html_lib.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip()
+        if "·" in t:
+            t = t.split("·", 1)[1].strip()
+        return t or None
+    except Exception:
+        return None
+
+
+def build_full_list_html():
+    """重建归档首页「历史复盘」列表（2026-11-10 新增）。
+
+    内容来源全部是磁盘上真实存在的报告，⛔ 不编造任何标题或结论：
+      · merged/ 下每份完整报告 → 链接 merged/<date>.html，摘要取自其 <title>
+      · archive/ 下 merged 没有的早期报告 → 链接 archive/<date>.html，用 meta.txt
+      · 同一天两者都有时以 merged（唯一正式版）为准
+      · 合并版时代（>= 2026-10-12）相邻报告间缺失的工作日 → 「缺档」占位，
+        纯数据推断（不依赖日历），不设链接、不编内容
+    返回 (列表 HTML 串, 实际报告数)。
+    """
+    items = {}   # date -> (href, title_html, badge_html)
+    merged_dir = os.path.join(SITE_DIR, "merged")
+    if os.path.isdir(merged_dir):
+        for fn in os.listdir(merged_dir):
+            m = re.match(r"^(\d{4}-\d{2}-\d{2})\.html$", fn)
+            if not m:
+                continue
+            d = m.group(1)
+            title = extract_merged_title(os.path.join(merged_dir, fn))
+            if title is None:
+                continue
+            items[d] = (
+                f"merged/{d}.html",
+                html_lib.escape(title),
+                '<span class="r-badge" style="background:#e8eef7;color:#1565c0">合并版</span>',
+            )
+
+    meta = load_meta()
+    if os.path.isdir(ARCHIVE_DIR):
+        for fn in os.listdir(ARCHIVE_DIR):
+            m = re.match(r"^(\d{4}-\d{2}-\d{2})\.html$", fn)
+            if not m:
+                continue
+            d = m.group(1)
+            if d in items:          # merged 优先
+                continue
+            item = meta.get(d, {"trend": "mixed", "title": "收盘主线复盘"})
+            cls, txt = BADGE_MAP.get(item["trend"], BADGE_MAP["mixed"])
+            items[d] = (
+                f"archive/{d}.html",
+                html_lib.escape(item["title"]),
+                f'<span class="r-badge {cls}">{txt}</span>',
+            )
+
+    # 合并版时代相邻报告之间缺失的工作日 → 缺档占位（10-12 之前早期非每交易日跑，不推断）
+    gaps = set()
+    recent = sorted(d for d in items if d >= "2026-10-12")
+    for i in range(len(recent) - 1):
+        cur = datetime.strptime(recent[i], "%Y-%m-%d") + timedelta(days=1)
+        end = datetime.strptime(recent[i + 1], "%Y-%m-%d")
+        while cur < end:
+            if cur.weekday() < 5:
+                gaps.add(cur.strftime("%Y-%m-%d"))
+            cur += timedelta(days=1)
+
+    lines = []
+    for d in sorted(set(items) | gaps, reverse=True):
+        wd = WEEKDAY_CN[datetime.strptime(d, "%Y-%m-%d").weekday()]
+        if d in gaps:
+            lines.append(f"""        <li>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 4px;gap:12px;opacity:.55">
+            <div class="r-left">
+              <div class="r-date">{d} · {wd}</div>
+              <div class="r-title">该交易日日报未生成（历史缺档）</div>
+            </div>
+            <span class="r-badge" style="background:#f0f0f0;color:#999">缺档</span>
+          </div>
+        </li>""")
+            continue
+        href, title, badge = items[d]
+        lines.append(f"""        <li>
+          <a href="{href}">
+            <div class="r-left">
+              <div class="r-date">{d} · {wd}</div>
+              <div class="r-title">{title}</div>
+            </div>
+            {badge}
+            <span class="arrow">›</span>
+          </a>
+        </li>""")
+    return "\n".join(lines), len(items)
+
+
+def rebuild_full_list():
+    """把 index.html 的 <ul id="report-list"> 替换为完整时间线。"""
+    with open(INDEX_PATH, "r", encoding="utf-8") as f:
+        page = f.read()
+    list_html, n = build_full_list_html()
+    if not n:
+        print("[WARN] 未找到任何报告，跳过列表重建")
+        return False
+    # 旧版「最新复盘」横幅已停用（正式版是 merged），改标注避免误以为 10-12 是最新
+    page = re.sub(r'(<div class="label">)[^<]*(</div>)',
+                  r"\g<1>历史归档 · 旧版4段式（已停用）\g<2>", page, count=1)
+    page, cnt = re.subn(
+        r'(<ul class="report-list" id="report-list">).*?(</ul>)',
+        lambda m: m.group(1) + "\n" + list_html + "\n      " + m.group(2),
+        page, flags=re.S
+    )
+    if cnt != 1:
+        print("[WARN] 未找到 id=report-list 锚点，列表未更新")
+        return False
+    with open(INDEX_PATH, "w", encoding="utf-8") as f:
+        f.write(page)
+    print(f"[OK] 归档首页历史列表已重建（{n} 份报告 + {len(list_html.split('<li>')) - 1 - n} 个缺档占位）")
+    return True
+
+
+def update_merged_entry(date_str, title):
+    """subdir=merged 时：更新首页「合并版」入口的日期/摘要/链接，并顺带重建历史列表。
+
+    2026-11-10 起历史列表由 merged/ 目录自动重建（此前只更新横幅、列表停在 10-12）。
+    archive/ 早期归档仍保留在列表中，两者按日期倒序合并成一条完整时间线。
     """
     with open(INDEX_PATH, "r", encoding="utf-8") as f:
         html = f.read()
@@ -179,6 +311,7 @@ def update_merged_entry(date_str, title):
     with open(INDEX_PATH, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"[OK] index.html 合并版入口已指向 {date_str}")
+    rebuild_full_list()
     return True
 
 
@@ -279,8 +412,12 @@ def main():
             save_meta(meta)
 
     if args.subdir == "merged":
-        update_merged_entry(
-            args.date or datetime.now().strftime("%Y-%m-%d"), args.title)
+        if args.rebuild:
+            # 仅重建历史列表，不动「最新」横幅（避免 --rebuild 时把入口指向尚未发布的日期）
+            rebuild_full_list()
+        else:
+            update_merged_entry(
+                args.date or datetime.now().strftime("%Y-%m-%d"), args.title)
     else:
         entries = scan_archive(args.subdir)
         update_index(entries, meta, args.subdir)
